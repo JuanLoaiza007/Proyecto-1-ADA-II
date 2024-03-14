@@ -72,8 +72,9 @@ def calcular_permutaciones(n):
     else:
         return n * calcular_permutaciones(n - 1)
 
-# Pruebas hasta de 10 tablones
-for i in range(1, 11):
+# Pruebas hasta de n-1 tablones
+n = 10
+for i in range(1, n):
     f = finca_al_azar(i)
     print(f"Para {i} tablones:")
     print("Número de permutaciones generadas:", len(generarProgramacionesRiego(f)))

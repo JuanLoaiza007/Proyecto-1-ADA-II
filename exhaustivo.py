@@ -1,30 +1,24 @@
 from main import *
 
+
 # Función tIR para calcular el tiempo de inicio de riego
 def tIR(f, pi):
-    
+
     def calcularTiempoInicio(tablon):
-        
-        def indiceTablon(pi, actual):
-            
-            def buscarIndice(v, e, indice):
-                if v[0] == e:
-                    return indice
-                else:
-                    return buscarIndice(v[1:], e, indice + 1)
-            return buscarIndice(pi, actual, 0)
 
         if tablon == pi[0]:
             return 0
         else:
-            return calcularTiempoInicio(pi[indiceTablon(pi, tablon) - 1]) + treg(f, pi[indiceTablon(pi, tablon) - 1])
+            return calcularTiempoInicio(pi[pi.index(tablon) - 1]) + treg(f, pi[pi.index(tablon) - 1])
 
     tiemposInicioRiego = [calcularTiempoInicio(ti) for ti in range(len(f))]
+
     return tiemposInicioRiego
+
 
 # Función costoRiegoTablon para calcular el costo de riego de un tablón
 def costoRiegoTablon(i, f, pi):
-    
+
     def costoRiego(ti):
         if tsup(f, i) - treg(f, i) >= ti:
             return tsup(f, i) - (ti + treg(f, i))
@@ -33,9 +27,10 @@ def costoRiegoTablon(i, f, pi):
 
     return costoRiego(tIR(f, pi)[i])
 
+
 # Función costoRiegoFinca para calcular el costo de riego de la finca
 def costoRiegoFinca(f, pi):
-    
+
     costos = [costoRiegoTablon(i, f, pi) for i in range(len(f))]
 
     def sumarElementos(vector):
@@ -46,9 +41,10 @@ def costoRiegoFinca(f, pi):
 
     return sumarElementos(costos)
 
+
 # Función costoMovilidad para calcular el costo de movilidad en la finca
 def costoMovilidad(f, pi, d):
-    
+
     n = len(pi)
     costos = [d[pi[j]][pi[j + 1]] for j in range(n - 1)]
 
@@ -60,9 +56,10 @@ def costoMovilidad(f, pi, d):
 
     return sumarElementos(costos)
 
+
 # Función para generar todas las posibles programaciones de riego
 def generarProgramacionesRiego(f):
-    
+
     tablones = list(range(len(f)))
 
     def generar(restantes):
@@ -78,10 +75,12 @@ def generarProgramacionesRiego(f):
 
     return generar(tablones)
 
+
 # Función ProgramacionRiegoOptimo para encontrar la programación de riego óptima
 def ProgramacionRiegoOptimo(f, d):
-    
-    progCostos = [(pi, costoRiegoFinca(f, pi) + costoMovilidad(f, pi, d)) for pi in generarProgramacionesRiego(f)]
+
+    progCostos = [(pi, costoRiegoFinca(f, pi) + costoMovilidad(f, pi, d))
+                  for pi in generarProgramacionesRiego(f)]
 
     def encontrarMinimo(optimaActual, costosRestantes):
         if not costosRestantes:

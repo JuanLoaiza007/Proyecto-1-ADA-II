@@ -1,7 +1,7 @@
 from main import *
 
 
-def tIR(f, pi):
+def costoRiegoTablon(i, f, pi):
 
     def calcularTiempoInicio(tablon):
 
@@ -10,20 +10,15 @@ def tIR(f, pi):
         else:
             return calcularTiempoInicio(pi[pi.index(tablon) - 1]) + treg(f, pi[pi.index(tablon) - 1])
 
-    tiemposInicioRiego = [calcularTiempoInicio(ti) for ti in range(len(f))]
-
-    return tiemposInicioRiego
-
-
-def costoRiegoTablon(i, f, pi):
-
     def costoRiego(ti):
         if tsup(f, i) - treg(f, i) >= ti:
             return tsup(f, i) - (ti + treg(f, i))
         else:
             return prio(f, i) * ((ti + treg(f, i)) - tsup(f, i))
 
-    return costoRiego(tIR(f, pi)[i])
+    tiemposInicioRiego = [calcularTiempoInicio(ti) for ti in range(len(f))]
+
+    return costoRiego(tiemposInicioRiego[i])
 
 
 def costoRiegoFinca(f, pi):

@@ -1,7 +1,7 @@
 from main import *
 
 
-def ProgramacionRiegoOptimo(f):
+def roFB(f):
 
     def costoRiegoTablon(i, f, pi):
 

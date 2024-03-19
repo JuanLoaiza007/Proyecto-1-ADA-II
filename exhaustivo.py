@@ -34,7 +34,7 @@ def costoRiegoFinca(f, pi):
     return sumarElementos(costos)
 
 
-def generarProgramacionesRiego(f):
+def ProgramacionRiegoOptimo(f):
 
     tablones = list(range(len(f)))
 
@@ -49,13 +49,10 @@ def generarProgramacionesRiego(f):
                     permutaciones.append([i] + permutacion)
             return permutaciones
 
-    return generar(tablones)
-
-
-def ProgramacionRiegoOptimo(f):
+    programacionesRiego = generar(tablones)
 
     progCostos = [(pi, costoRiegoFinca(f, pi))
-                  for pi in generarProgramacionesRiego(f)]
+                  for pi in programacionesRiego]
 
     def encontrarMinimo(optimaActual, costosRestantes):
         if not costosRestantes:

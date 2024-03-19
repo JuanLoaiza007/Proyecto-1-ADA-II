@@ -1,7 +1,6 @@
 from main import *
 
 
-# Función tIR para calcular el tiempo de inicio de riego
 def tIR(f, pi):
 
     def calcularTiempoInicio(tablon):
@@ -16,7 +15,6 @@ def tIR(f, pi):
     return tiemposInicioRiego
 
 
-# Función costoRiegoTablon para calcular el costo de riego de un tablón
 def costoRiegoTablon(i, f, pi):
 
     def costoRiego(ti):
@@ -28,7 +26,6 @@ def costoRiegoTablon(i, f, pi):
     return costoRiego(tIR(f, pi)[i])
 
 
-# Función costoRiegoFinca para calcular el costo de riego de la finca
 def costoRiegoFinca(f, pi):
 
     costos = [costoRiegoTablon(i, f, pi) for i in range(len(f))]
@@ -42,7 +39,6 @@ def costoRiegoFinca(f, pi):
     return sumarElementos(costos)
 
 
-# Función costoMovilidad para calcular el costo de movilidad en la finca
 def costoMovilidad(f, pi, d):
 
     n = len(pi)
@@ -57,7 +53,6 @@ def costoMovilidad(f, pi, d):
     return sumarElementos(costos)
 
 
-# Función para generar todas las posibles programaciones de riego
 def generarProgramacionesRiego(f):
 
     tablones = list(range(len(f)))
@@ -76,7 +71,6 @@ def generarProgramacionesRiego(f):
     return generar(tablones)
 
 
-# Función ProgramacionRiegoOptimo para encontrar la programación de riego óptima
 def ProgramacionRiegoOptimo(f):
 
     progCostos = [(pi, costoRiegoFinca(f, pi))

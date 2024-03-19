@@ -39,20 +39,6 @@ def costoRiegoFinca(f, pi):
     return sumarElementos(costos)
 
 
-def costoMovilidad(f, pi, d):
-
-    n = len(pi)
-    costos = [d[pi[j]][pi[j + 1]] for j in range(n - 1)]
-
-    def sumarElementos(vector):
-        if not vector:
-            return 0
-        else:
-            return vector[0] + sumarElementos(vector[1:])
-
-    return sumarElementos(costos)
-
-
 def generarProgramacionesRiego(f):
 
     tablones = list(range(len(f)))

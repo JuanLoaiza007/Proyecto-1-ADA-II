@@ -77,9 +77,9 @@ def generarProgramacionesRiego(f):
 
 
 # Función ProgramacionRiegoOptimo para encontrar la programación de riego óptima
-def ProgramacionRiegoOptimo(f, d):
+def ProgramacionRiegoOptimo(f):
 
-    progCostos = [(pi, costoRiegoFinca(f, pi) + costoMovilidad(f, pi, d))
+    progCostos = [(pi, costoRiegoFinca(f, pi))
                   for pi in generarProgramacionesRiego(f)]
 
     def encontrarMinimo(optimaActual, costosRestantes):

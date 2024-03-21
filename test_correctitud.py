@@ -1,4 +1,4 @@
-from exhaustivo import *
+from models.exhaustivo import *
 
 # Ejemplo 1
 finca1 = [(2, 2, 1), (3, 4, 1), (4, 2, 1), (7, 6, 1)]

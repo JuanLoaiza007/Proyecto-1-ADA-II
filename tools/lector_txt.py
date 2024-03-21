@@ -3,7 +3,7 @@ from file_selector import File_selector
 
 
 def leer_archivo_txt():
-    nombre_archivo = File_selector.select("data")
+    nombre_archivo = File_selector.select("data/tests")
     if nombre_archivo:
         try:
             with open(nombre_archivo, "r") as archivo:

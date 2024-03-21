@@ -98,11 +98,12 @@ def roV(f):
 
     solucionVoraz = []
     last = len(tablones)
+    indice_original = {i: i for i in range(len(tablones))}
 
     for j in range(0, len(tablones), 1):
         solucionVoraz.append(-1)
 
-    for k in range(len(tablones)-1, -1, -1):
+    for _ in range(len(tablones)-1, -1, -1):
         costos = []
 
         for j in range(0, len(tablones), 1):
@@ -117,8 +118,22 @@ def roV(f):
                 costo_menor = costos[j]
                 index = j
 
-        solucionVoraz[last-1] = index
+        clave_org = None
+
+        for clave, valor in indice_original.items():
+            if valor == index:
+                solucionVoraz[last-1] = clave
+                clave_org = clave
+
+        del indice_original[clave_org]
+
+        for clave, valor in indice_original.items():
+
+            if valor >= index:
+                indice_original[clave] -= 1
+
         last -= 1
+
         tablones.pop(index)
 
-    return tuple([solucionVoraz, 0])
+    return tuple([solucionVoraz, costoRiegoFinca(f, solucionVoraz)])

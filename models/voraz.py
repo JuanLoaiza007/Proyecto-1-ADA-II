@@ -94,27 +94,31 @@ def roV(f):
 
         return sumarElementos(costos)
 
-    tablones = f
-    costos = []
+    tablones = f[:]
 
     solucionVoraz = []
     last = len(tablones)
 
+    for j in range(0, len(tablones), 1):
+        solucionVoraz.append(-1)
+
     for k in range(len(tablones)-1, -1, -1):
+        costos = []
+
         for j in range(0, len(tablones), 1):
-            solucionVoraz.append(-1)
             copia_tablones = tablones[:]
             costos.append(calcularCostoComoUltimo(copia_tablones, j))
 
-        costo_menor = costos[0]
         index = 0
+        costo_menor = costos[0]
+
         for j in range(1, len(costos), 1):
             if costo_menor > costos[j]:
                 costo_menor = costos[j]
                 index = j
 
-        solucionVoraz[last-1] = costo_menor
+        solucionVoraz[last-1] = index
         last -= 1
         tablones.pop(index)
 
-    # return encontrarMinimo(progCostos[0], progCostos[1:])
+    return tuple([solucionVoraz, 0])

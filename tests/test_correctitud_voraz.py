@@ -1,7 +1,8 @@
 from models.exhaustivo import *
+from models.voraz import *
 
 
-class test_correctitud:
+class test_correctitud_voraz:
     def start():
         # Ejemplo 1
         finca1 = [(2, 2, 1), (3, 4, 1), (4, 2, 1), (7, 6, 1)]
@@ -16,4 +17,9 @@ class test_correctitud:
 
         # Cuando
 
-        print("Optima es: ", roFB(finca1))
+        finca = finca4
+        print(roV(finca1))
+
+        # print("Optima es: ", roFB(finca))
+        # print("Optima según voraz es: ", roV(finca))
+        # print("Finca tiene elementos: ", len(finca))

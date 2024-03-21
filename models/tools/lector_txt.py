@@ -1,5 +1,5 @@
 # [lector_txt.py]
-from file_selector import File_selector
+from models.tools.file_selector import File_selector
 
 
 def leer_archivo_txt():

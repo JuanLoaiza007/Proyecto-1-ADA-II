@@ -1,5 +1,7 @@
 from main import *
 
+debug = True
+
 
 def roFB(f):
 
@@ -26,12 +28,6 @@ def roFB(f):
 
         costos = [costoRiegoTablon(i, f, pi) for i in range(len(f))]
 
-        i = 0
-        for costo in costos:
-            print("Costo(t", i, "): ", costo)
-            i += 1
-        print("\n")
-
         def sumarElementos(vector):
             if not vector:
                 return 0
@@ -57,8 +53,28 @@ def roFB(f):
 
     progCostos = [(pi, costoRiegoFinca(f, pi))
                   for pi in programacionesRiego]
-    for prog in progCostos:
-        print(prog)
+
+    if debug:
+        i = 0
+        for prog in programacionesRiego:
+            print(prog)
+
+            programacionDefault = []
+            for j in range(0, len(programacionesRiego[0]), 1):
+                programacionDefault.append(j)
+
+            costosTablones = [costoRiegoTablon(
+                i, f, prog) for i in range(len(prog))]
+
+            t = 0
+            for costo in costosTablones:
+                print("Tablon ", t, " cuesta: ", costo)
+                t += 1
+
+            print("Corresponde a la programacion: ", progCostos[i], "\n")
+            i += 1
+
+            print("")
 
     def encontrarMinimo(optimaActual, costosRestantes):
         if not costosRestantes:

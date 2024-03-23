@@ -1,0 +1,109 @@
+<mxfile host="Electron" modified="2024-03-23T19:52:22.568Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.1.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="rAowjqUoYmcjZJpDZYxc" version="23.1.5" type="device">
+  <diagram name="Página-1" id="pOkgu7gdgmRIMwSRWIvD">
+    <mxGraphModel dx="2308" dy="891" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nZxzC5y5UGG8NB3IwJ_7-5" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="160" y="80" width="800" height="600" as="geometry" />
+        </mxCell>
+        <mxCell id="nZxzC5y5UGG8NB3IwJ_7-6" value="Cargar archivo" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="843.5" y="100" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="nZxzC5y5UGG8NB3IwJ_7-9" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;Titulo del programa del proyecto de ADA 2024-1&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="180" y="100" width="360" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dhmBD5__mFO9ssw_5Kf4-1" value="&lt;b&gt;&amp;nbsp;&lt;br&gt;&amp;nbsp;Interpretacion&lt;br&gt;&amp;nbsp; Finca &lt;/b&gt;{ &amp;lt;ts0, tr0, p0&amp;gt; &amp;lt;&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;ts0, tr0, p0&lt;/span&gt;&amp;gt; ... &amp;lt;&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;ts(n-1), tr&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;(n-1)&lt;/span&gt;&amp;nbsp;p&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;(n-1)&lt;/span&gt;&lt;/span&gt;&amp;gt;}&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;&amp;nbsp;Archivo de entrada&lt;/b&gt;&lt;br&gt;&lt;b&gt;&amp;nbsp;&amp;nbsp;&lt;/b&gt;n&lt;br&gt;&amp;nbsp; ts0,tr0,p0&lt;br&gt;&amp;nbsp; ts1,tr1,p1&lt;br&gt;&amp;nbsp; ...&lt;br&gt;&amp;nbsp; ts(n-1),tr(n-1,p(n-1)&lt;b&gt;&lt;br&gt;&amp;nbsp;&lt;br&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=2;" parent="1" vertex="1">
+          <mxGeometry x="183.5" y="200" width="380" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="dhmBD5__mFO9ssw_5Kf4-2" value="&lt;b&gt;&lt;br&gt;&amp;nbsp;Interpretacion&lt;br&gt;&lt;/b&gt;&amp;nbsp; Programacion (pi0, pi1, ... pi(n-1), costo)&lt;br&gt;&lt;br&gt;&lt;br&gt;&amp;nbsp;&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;&amp;nbsp;Archivo de salida&lt;/b&gt;&lt;br&gt;&amp;nbsp; Costo&lt;br&gt;&amp;nbsp; pi0&lt;br&gt;&amp;nbsp; pi1&lt;br&gt;&amp;nbsp; ...&lt;br&gt;&amp;nbsp; pi(n-1)" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="563.5" y="200" width="380" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="dhmBD5__mFO9ssw_5Kf4-4" value="&amp;nbsp;Algoritmo" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="180" y="140" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dhmBD5__mFO9ssw_5Kf4-5" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="140" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dhmBD5__mFO9ssw_5Kf4-6" value="" style="triangle;whiteSpace=wrap;html=1;rotation=90;" parent="1" vertex="1">
+          <mxGeometry x="360" y="150" width="10" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--3" value="&lt;b&gt;Requisitos&lt;/b&gt;&lt;br&gt;&lt;br&gt;Una interfaz que permita:&lt;br&gt;- &lt;b&gt;Leer entradas&lt;/b&gt; al problema desde&amp;nbsp;un archivo de texto&lt;br&gt;- &lt;b&gt;Escribir las salidas&lt;/b&gt; al problema en un archivo de&amp;nbsp;texto&amp;nbsp;&lt;br&gt;- &lt;b&gt;Visualizar las entradas&lt;/b&gt;&amp;nbsp;después de leerlas &lt;br&gt;- &lt;b&gt;Visualizar las salidas&lt;/b&gt;&amp;nbsp;después de ser calculadas por cualquiera de las funciones solicitadas. &lt;br&gt;&lt;br&gt;- Las salidas deben poder ser&amp;nbsp;revisadas por medio de la interfaz en cuanto a su estructura y calidad (optimalidad). &lt;br&gt;En particular debe ser fácil comprobar la &lt;b&gt;corrección del costo&lt;/b&gt; de la solución dada." style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="150" width="630" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--5" value="Iniciar" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="405" y="140" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--8" value="Exportar solucion" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="483.5" y="630" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--10" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;Entrada&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="318.5" y="180" width="90" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--11" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;Salida&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="703.5" y="180" width="90" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--12" value="Sobre&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="183.5" y="630" width="56.5" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--13" value="No se/Se asegura la óptima" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#FF0000;" vertex="1" parent="1">
+          <mxGeometry x="767" y="630" width="173" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--17" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="40" y="180" as="sourcePoint" />
+            <mxPoint x="40" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--19" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="60" y="610" as="sourcePoint" />
+            <mxPoint x="60" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--20" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="40" y="680" as="sourcePoint" />
+            <mxPoint x="40" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--21" value="70" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-20" y="630" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--22" value="430" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry y="440" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--23" value="100" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-30" y="110" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--24" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="130" as="sourcePoint" />
+            <mxPoint x="100" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--25" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="110" y="170" as="sourcePoint" />
+            <mxPoint x="110" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--27" value="30" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="100" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--28" value="30" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="80" y="140" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--29" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="120" y="660" as="sourcePoint" />
+            <mxPoint x="120" y="630" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TbjwgCO5etZdT77dl3e--30" value="30" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="630" width="30" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -64,6 +64,13 @@ class controlador_principal:
         self.block_focus()
         Temporizador.iniciar(0.0001)
         finca = leer_archivo_txt()
+
+        if finca == None:
+            print_debug(
+                "No se ha seleccionado ningún archivo, la finca no cambia en modelo")
+            self.unblock_focus()
+            return None
+
         self.modelo.set_finca(finca)
         self.unblock_focus()
 
@@ -81,6 +88,11 @@ class controlador_principal:
             self.ui.box_algoritmo.currentText()))
 
     def iniciar(self):
+        if self.modelo.get_finca() == None:
+            print_debug(
+                "No se pudo iniciar, el modelo no tiene una finca cargada.")
+            return None
+
         self.resultado = self.modelo.iniciar()
 
         print_debug("El resultado del algoritmo es {}".format(

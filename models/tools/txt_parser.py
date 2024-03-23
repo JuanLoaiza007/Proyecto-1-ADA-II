@@ -22,11 +22,13 @@ def leer_archivo_txt():
                 n = int(archivo.readline().strip())
 
                 datos = []
+                contenido = str(n) + "\n"
                 for _ in range(n):
                     linea = archivo.readline().strip()
                     valores = tuple([int(x) for x in linea.split(",")])
+                    contenido += linea + "\n"
                     datos.append(valores)
-                return datos
+                return [datos, contenido]
 
         except FileNotFoundError as e:
             print("txt_parser: Error: El archivo no fue encontrado:", e)

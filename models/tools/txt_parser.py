@@ -31,10 +31,9 @@ def leer_archivo_txt():
                 return datos
 
         except FileNotFoundError:
-            print(f"El archivo '{nombre_archivo}' no se encontró.")
+
             return None
     else:
-        print("No se seleccionó ningún archivo.")
         return None
 
 

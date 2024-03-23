@@ -64,6 +64,9 @@ class modelo_principal:
         print_debug("El algoritmo a usar se ha cambiado a {}".format(
             str(self.algoritmo)))
 
+    def get_resultado(self):
+        return self.resultado
+
     def iniciar(self):
         if self.finca == None:
             print_debug("Error: No se ha cargado ninguna finca")

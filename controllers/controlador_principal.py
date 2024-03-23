@@ -11,6 +11,12 @@ from views.sm_dialog_clean import Ui_Dialog as sm_dialog_clean
 debug = True
 
 
+def print_debug(message):
+    new_message = "controlador_principal.py: " + message
+    if debug:
+        print(new_message)
+
+
 class controlador_principal:
     # Funcion para inicializar
     def cargar(self, main_window):
@@ -69,19 +75,21 @@ class controlador_principal:
             self.modelo.set_algoritmo('dinamico')
         elif indice_actual == 2:
             self.modelo.set_algoritmo('voraz')
-        if debug:
-            print("controlador_principal.py: ", self.ui.box_algoritmo.currentIndex(),
-                  self.ui.box_algoritmo.currentText())
+
+        print_debug("{} {}".format(
+            self.ui.box_algoritmo.currentIndex(),
+            self.ui.box_algoritmo.currentText()))
 
     def iniciar(self):
         self.resultado = self.modelo.iniciar()
-        if debug:
-            print(f"El resultado del algoritmo es {str(self.resultado)}")
+
+        print_debug("El resultado del algoritmo es {}".format(
+            str(self.resultado)))
 
     def exportar(self):
-        if debug:
-            print(
-                "controlador_principal.py: Ha presionado el boton para exportar el archivo")
+
+        print_debug(
+            "Ha presionado el boton para exportar el archivo")
 
     def mostrar_sobre_nosotros(self):
         from controllers.controlador_sobre_nosotros import controlador_sobre_nosotros

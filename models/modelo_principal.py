@@ -1,5 +1,15 @@
+# [modelo_principal.py]
+
 from models.exhaustivo import roFB
 from models.voraz import roV
+
+debug = True
+
+
+def print_debug(message):
+    new_message = "modelo_principal.py: " + message
+    if debug:
+        print(new_message)
 
 
 class modelo_principal:
@@ -18,8 +28,9 @@ class modelo_principal:
             None
         """
         self.finca = finca
-        print(
-            f"modelo_principal.py: Finca se ha cambiado a {self.finca}")
+
+        print_debug(
+            "Finca se ha cambiado a {}".format(str(self.finca)))
 
     def get_finca(self):
         """
@@ -44,22 +55,23 @@ class modelo_principal:
             None
         """
         self.algoritmo = algoritmo
-        print(
-            f"modelo_principal.py: El algoritmo a usar se ha cambiado a {self.algoritmo}")
+
+        print_debug("El algoritmo a usar se ha cambiado a {}".format(
+            str(self.algoritmo)))
 
     def iniciar(self):
         if self.finca == None:
-            print("modelo_principal.py: Error: No se ha cargado ninguna finca")
+            print_debug("Error: No se ha cargado ninguna finca")
             return None
 
         if self.algoritmo == 'exhaustivo':
             return roFB(self.finca)
         elif self.algoritmo == 'dinamico':
-            print("modelo_principal.py:  Este algoritmo esta en proceso de creacion")
+            print_debug("Este algoritmo esta en proceso de creacion")
             return None
         elif self.algoritmo == 'voraz':
             return roV(self.finca)
         else:
-            print(
-                f"modelo_principal.py:  Error: El algoritmo {str(self.algoritmo)} no es valido")
+            print_debug("Error: El algoritmo {} no es valido".format(
+                str(self.algoritmo)))
             return None

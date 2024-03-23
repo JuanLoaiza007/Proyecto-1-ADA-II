@@ -1,4 +1,4 @@
-# controlador_sobre_nosotros.py
+# [controlador_sobre_nosotros.py]
 
 from views.vista_sobre_nosotros import Ui_MainWindow
 from models.modelo_sobre_nosotros import modelo_sobre_nosotros

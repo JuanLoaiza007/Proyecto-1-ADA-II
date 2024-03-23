@@ -59,6 +59,22 @@ class controlador_principal:
         self.ui.centralwidget.setEnabled(True)
         self.ui.centralwidget.setVisible(True)
 
+    def mostrar_dialogo(self, titulo, mensaje):
+        self.block_focus()
+        Temporizador.iniciar(0.0001)
+
+        new_dialog = QtWidgets.QDialog()
+        new_ui = sm_dialog_clean()
+        new_ui.setupUi(new_dialog)
+        new_dialog.setModal(True)
+        new_dialog.show()
+        new_ui.lbl_title.setText(titulo)
+        new_ui.lbl_body.setText(mensaje)
+
+        new_dialog.exec()
+
+        self.unblock_focus()
+
     # Funciones específicas
 
     def cargar_archivo(self):
@@ -91,18 +107,23 @@ class controlador_principal:
         if indice_actual == 0:
             self.modelo.set_algoritmo('exhaustivo')
         elif indice_actual == 1:
-            self.modelo.set_algoritmo('dinamico')
+            print_debug(
+                "He cambiado el algoritmo a voraz, si ha creado un algoritmo dinamico no olvide cambiar esta parte")
+            self.modelo.set_algoritmo('voraz')
         elif indice_actual == 2:
             self.modelo.set_algoritmo('voraz')
 
         self.ui.txtE_salida.setText("")
 
-        print_debug("{} {}".format(
+        print_debug("ItemComboBox is {}. {}".format(
             self.ui.box_algoritmo.currentIndex(),
             self.ui.box_algoritmo.currentText()))
 
     def iniciar(self):
         if self.modelo.get_finca() == None:
+            titulo = "Error"
+            mensaje = "Debe cargar un archivo antes de iniciar el algoritmo"
+            self.mostrar_dialogo(titulo, mensaje)
             print_debug(
                 "No se pudo iniciar, el modelo no tiene una finca cargada.")
             return None
@@ -127,6 +148,10 @@ class controlador_principal:
         Temporizador.iniciar(0.0001)
 
         if self.modelo.get_resultado() == None:
+            titulo = "Error"
+            mensaje = "No es posible exportar un archivo si el algoritmo no se ha ejecutado"
+            self.mostrar_dialogo(titulo, mensaje)
+
             print_debug(
                 "No es posible exportar un archivo si el algoritmo no se ha ejecutado")
             self.unblock_focus()
@@ -134,8 +159,13 @@ class controlador_principal:
 
         ruta_archivo = self.modelo.exportar()
         if ruta_archivo == None or ruta_archivo == "()":
-            print_debug("Algo falló, obtuve ruta None")
+            print_debug(
+                "Algo falló o se canceló la exportación, obtuve ruta None.")
         else:
+            titulo = "Atención"
+            mensaje = "Se ha exportado el archivo en la ruta:\n'{}'".format(
+                str(ruta_archivo))
+            self.mostrar_dialogo(titulo, mensaje)
             print_debug(
                 "Se ha exportado el archivo en la ruta '{}'".format(str(ruta_archivo)))
 

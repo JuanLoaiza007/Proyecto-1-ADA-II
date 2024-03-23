@@ -1,8 +1,6 @@
 # [lector_txt.py]
 import tkinter as tk
 from tkinter import filedialog
-import os
-import datetime
 from models.tools.file_selector import File_selector
 
 
@@ -30,8 +28,12 @@ def leer_archivo_txt():
                     datos.append(valores)
                 return datos
 
-        except FileNotFoundError:
+        except FileNotFoundError as e:
+            print("txt_parser: Error: El archivo no fue encontrado:", e)
+            return None
 
+        except ValueError as e:
+            print("txt_parser: Error: El formato del archivo NO es correcto.")
             return None
     else:
         return None

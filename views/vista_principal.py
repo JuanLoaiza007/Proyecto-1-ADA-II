@@ -451,11 +451,11 @@ class Ui_MainWindow(object):
         self.head.setFrameShadow(QtWidgets.QFrame.Raised)
         self.head.setObjectName("head")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.head)
-        self.verticalLayout_2.setContentsMargins(10, 10, 10, 0)
+        self.verticalLayout_2.setContentsMargins(10, 5, 10, 5)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.head1 = QtWidgets.QFrame(self.head)
-        self.head1.setMinimumSize(QtCore.QSize(780, 30))
+        self.head1.setMinimumSize(QtCore.QSize(780, 40))
         self.head1.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.head1.setFrameShadow(QtWidgets.QFrame.Raised)
         self.head1.setObjectName("head1")
@@ -470,7 +470,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.lvl_tituloPrograma)
         self.btn_cargarArchivo = QtWidgets.QPushButton(self.head1)
         self.btn_cargarArchivo.setMinimumSize(QtCore.QSize(0, 35))
-        self.btn_cargarArchivo.setMaximumSize(QtCore.QSize(170, 35))
+        self.btn_cargarArchivo.setMaximumSize(QtCore.QSize(170, 40))
         self.btn_cargarArchivo.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_cargarArchivo.setObjectName("btn_cargarArchivo")
         self.horizontalLayout_3.addWidget(self.btn_cargarArchivo)
@@ -662,6 +662,7 @@ class Ui_MainWindow(object):
         self.lvl_tituloPrograma.setProperty("class", _translate("MainWindow", "h4 color-primary"))
         self.btn_cargarArchivo.setText(_translate("MainWindow", "Cargar archivo"))
         self.btn_cargarArchivo.setProperty("class", _translate("MainWindow", "btn-primary br-2"))
+        self.box_algoritmo.setProperty("class", _translate("MainWindow", "h6"))
         self.box_algoritmo.setItemText(0, _translate("MainWindow", "Fuerza bruta"))
         self.box_algoritmo.setItemText(1, _translate("MainWindow", "Programación Dinámica"))
         self.box_algoritmo.setItemText(2, _translate("MainWindow", "Programación Voraz"))
@@ -676,9 +677,10 @@ class Ui_MainWindow(object):
 "hr { height: 1px; border-width: 0; }\n"
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:18px; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'San Francisco Text\'; font-size:12pt;\"><br /></p></body></html>"))
         self.txtE_entrada.setPlaceholderText(_translate("MainWindow", "Presione \"Cargar archivo\" para cargar datos de entrada"))
+        self.txtE_entrada.setProperty("class", _translate("MainWindow", "h6"))
         self.bodytitle_2.setProperty("class", _translate("MainWindow", "b-st-1 b-sb-1 b-sl-1 b-sr-1"))
         self.label_3.setText(_translate("MainWindow", "Salida"))
         self.bodybody_2.setProperty("class", _translate("MainWindow", "b-st-1 b-sb-1 b-sl-1 b-sr-1"))
@@ -688,9 +690,10 @@ class Ui_MainWindow(object):
 "hr { height: 1px; border-width: 0; }\n"
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:18px; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'San Francisco Text\'; font-size:12pt;\"><br /></p></body></html>"))
         self.txtE_salida.setPlaceholderText(_translate("MainWindow", "Presione \"Iniciar\" para iniciar el algoritmo con la Entrada"))
+        self.txtE_salida.setProperty("class", _translate("MainWindow", "h6"))
         self.btn_sobre.setText(_translate("MainWindow", "Sobre"))
         self.btn_sobre.setProperty("class", _translate("MainWindow", "btn-outline-dark br-2"))
         self.btn_exportar.setText(_translate("MainWindow", "Exportar"))

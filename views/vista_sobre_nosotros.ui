@@ -506,7 +506,7 @@ QPushButton {
        <item row="0" column="0">
         <widget class="QLabel" name="lbl_cuerpo">
          <property name="text">
-          <string>Esta aplicacion esta desarrolladad por:
+          <string>Esta aplicacion esta desarrollada por:
 
 Juan David Loaiza Santiago (2177570)
 Julian David Rendon Cardona (2177387)

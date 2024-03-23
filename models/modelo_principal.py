@@ -59,6 +59,7 @@ class modelo_principal:
             None si hay alguna inconsistencia
         """
         self.algoritmo = algoritmo
+        self.resultado = None
 
         print_debug("El algoritmo a usar se ha cambiado a {}".format(
             str(self.algoritmo)))

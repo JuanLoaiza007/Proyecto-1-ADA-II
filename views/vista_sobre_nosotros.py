@@ -501,11 +501,16 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Sobre nosotros"))
         self.centralwidget.setProperty("class", _translate("MainWindow", "background-white"))
         self.lbl_titulo.setText(_translate("MainWindow", "Sobre esta aplicacion"))
         self.lbl_titulo.setProperty("class", _translate("MainWindow", "h5 color-primary"))
-        self.lbl_cuerpo.setText(_translate("MainWindow", "Esta aplicacion no es más que un experimento para implementar modelo-vista-controlador y facilitar la programacion de aplicaciones grandes implementado interfaces de  Qt Designer"))
+        self.lbl_cuerpo.setText(_translate("MainWindow", "Esta aplicacion esta desarrolladad por:\n"
+"\n"
+"Juan David Loaiza Santiago (2177570)\n"
+"Julian David Rendon Cardona (2177387)\n"
+"Juan Sebastian Muñoz Rojas (2177436)\n"
+"John Freddy Belalcazar (2182464)"))
         self.lbl_cuerpo.setProperty("class", _translate("MainWindow", "h5"))
         self.btn_volver.setText(_translate("MainWindow", "Volver"))
         self.btn_volver.setProperty("class", _translate("MainWindow", "btn-primary"))

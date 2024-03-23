@@ -1,6 +1,6 @@
 from models.exhaustivo import *
 from models.voraz import *
-from models.tools.lector_txt import leer_archivo_txt
+from models.tools.txt_parser import leer_archivo_txt
 
 
 class test_correctitud_voraz:

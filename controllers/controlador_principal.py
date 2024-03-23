@@ -4,7 +4,7 @@ import os
 from PyQt5 import QtWidgets, QtGui
 from views.vista_principal import Ui_MainWindow
 from models.modelo_principal import modelo_principal
-from models.tools.lector_txt import leer_archivo_txt
+from models.tools.txt_parser import leer_archivo_txt
 from models.tools.temporizador import Temporizador
 from views.sm_dialog_clean import Ui_Dialog as sm_dialog_clean
 
@@ -88,8 +88,12 @@ class controlador_principal:
 
     def exportar(self):
 
-        print_debug(
-            "Ha presionado el boton para exportar el archivo")
+        ruta_archivo = self.modelo.exportar()
+        if ruta_archivo == None or ruta_archivo == "()":
+            print_debug("Algo falló, obtuve ruta None")
+        else:
+            print_debug(
+                "Se ha exportado el archivo en la ruta '{}'".format(str(ruta_archivo)))
 
     def mostrar_sobre_nosotros(self):
         from controllers.controlador_sobre_nosotros import controlador_sobre_nosotros

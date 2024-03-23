@@ -1,5 +1,6 @@
 # [modelo_principal.py]
 
+from models.tools.txt_parser import exportar_programacion_txt
 from models.exhaustivo import roFB
 from models.voraz import roV
 
@@ -16,6 +17,7 @@ class modelo_principal:
     def __init__(self):
         self.finca = None
         self.algoritmo = None
+        self.resultado = None
 
     def set_finca(self, finca):
         """
@@ -28,6 +30,7 @@ class modelo_principal:
             None
         """
         self.finca = finca
+        self.resultado = None
 
         print_debug(
             "Finca se ha cambiado a {}".format(str(self.finca)))
@@ -52,7 +55,8 @@ class modelo_principal:
             algoritmo (str): El tipo de algoritmo ('exhaustivo', 'dinamico', 'voraz')
 
         Returns:
-            None
+            self.resultado [(int, int,... int), int]: La programación  de riego con su costo.
+            None si hay alguna inconsistencia
         """
         self.algoritmo = algoritmo
 
@@ -65,13 +69,19 @@ class modelo_principal:
             return None
 
         if self.algoritmo == 'exhaustivo':
-            return roFB(self.finca)
+            self.resultado = roFB(self.finca)
         elif self.algoritmo == 'dinamico':
             print_debug("Este algoritmo esta en proceso de creacion")
-            return None
+            self.resultado = None
         elif self.algoritmo == 'voraz':
-            return roV(self.finca)
+            self.resultado = roV(self.finca)
         else:
             print_debug("Error: El algoritmo {} no es valido".format(
                 str(self.algoritmo)))
             return None
+
+        return self.resultado
+
+    def exportar(self):
+        if self.resultado != None:
+            return exportar_programacion_txt(self.resultado)

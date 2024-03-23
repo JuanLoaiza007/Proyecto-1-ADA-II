@@ -7,6 +7,16 @@ from models.tools.file_selector import File_selector
 
 
 def leer_archivo_txt():
+    """
+    Lee un archivo .txt formateado y lo procesa para obtener la finca
+
+    Args:
+        Ninguno, se abre en una ruta predefinida y usa un explorador de Tkinter
+
+    Returns:
+        datos [(int, int, int), (int, int, int),... (int, int, int)]: La finca
+        None si no se seleccionó nada
+    """
     nombre_archivo = File_selector.select("data/tests")
     if nombre_archivo:
         try:

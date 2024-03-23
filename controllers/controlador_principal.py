@@ -28,6 +28,7 @@ class controlador_principal:
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.MainWindow)
 
+        self.ui.lbl_optimalidad.setText("")
         self.ui.box_algoritmo.setCurrentIndex(0)
         self.modelo.set_algoritmo('exhaustivo')
 
@@ -61,20 +62,31 @@ class controlador_principal:
     # Funciones específicas
 
     def cargar_archivo(self):
+        self.ui.lbl_optimalidad.setText("")
         self.block_focus()
         Temporizador.iniciar(0.0001)
-        finca = leer_archivo_txt()
+        parsed = leer_archivo_txt()
 
-        if finca == None:
+        if parsed == None:
             print_debug(
                 "No se ha seleccionado ningún archivo, la finca no cambia en modelo")
             self.unblock_focus()
             return None
 
+        finca = parsed[0]
+        txt = parsed[1]
         self.modelo.set_finca(finca)
+
+        finca_str = str(self.modelo.get_finca())
+        txt_str = str(txt)
+        self.ui.txtE_entrada.setText(
+            f"=== Interpretacion ===\nFinca: {finca_str} \n\n=== Archivo cargado ===\n{txt_str}")
+
+        self.ui.txtE_salida.setText("")
         self.unblock_focus()
 
     def cambiar_algoritmo(self):
+        self.ui.lbl_optimalidad.setText("")
         indice_actual = self.ui.box_algoritmo.currentIndex()
         if indice_actual == 0:
             self.modelo.set_algoritmo('exhaustivo')
@@ -82,6 +94,8 @@ class controlador_principal:
             self.modelo.set_algoritmo('dinamico')
         elif indice_actual == 2:
             self.modelo.set_algoritmo('voraz')
+
+        self.ui.txtE_salida.setText("")
 
         print_debug("{} {}".format(
             self.ui.box_algoritmo.currentIndex(),
@@ -94,15 +108,28 @@ class controlador_principal:
             return None
 
         self.resultado = self.modelo.iniciar()
+        resultado_str = str(self.resultado)
+        preview = self.modelo.prev_prog_exportable(self.resultado)
+
+        self.ui.txtE_salida.setText(
+            f"=== Interpretacion ===\nProgramación óptima {resultado_str} \n\n=== Archivo exportable ===\n{preview}")
+
+        if str(self.modelo.get_algoritmo()) == "exhaustivo":
+            self.ui.lbl_optimalidad.setText("Es óptima")
+        else:
+            self.ui.lbl_optimalidad.setText("No asegura la óptima")
 
         print_debug("El resultado del algoritmo es {}".format(
             str(self.resultado)))
 
     def exportar(self):
+        self.block_focus()
+        Temporizador.iniciar(0.0001)
 
         if self.modelo.get_resultado() == None:
             print_debug(
                 "No es posible exportar un archivo si el algoritmo no se ha ejecutado")
+            self.unblock_focus()
             return None
 
         ruta_archivo = self.modelo.exportar()
@@ -111,6 +138,8 @@ class controlador_principal:
         else:
             print_debug(
                 "Se ha exportado el archivo en la ruta '{}'".format(str(ruta_archivo)))
+
+        self.unblock_focus()
 
     def mostrar_sobre_nosotros(self):
         from controllers.controlador_sobre_nosotros import controlador_sobre_nosotros

@@ -64,6 +64,9 @@ class modelo_principal:
         print_debug("El algoritmo a usar se ha cambiado a {}".format(
             str(self.algoritmo)))
 
+    def get_algoritmo(self):
+        return self.algoritmo
+
     def get_resultado(self):
         return self.resultado
 
@@ -89,3 +92,13 @@ class modelo_principal:
     def exportar(self):
         if self.resultado != None:
             return exportar_programacion_txt(self.resultado)
+
+    def prev_prog_exportable(self, prog):
+        orden = prog[0]
+        costo = prog[1]
+        preview = str(costo)
+
+        for tablon in orden:
+            preview += "\n" + str(tablon)
+
+        return preview

@@ -88,6 +88,11 @@ class controlador_principal:
 
     def exportar(self):
 
+        if self.modelo.get_resultado() == None:
+            print_debug(
+                "No es posible exportar un archivo si el algoritmo no se ha ejecutado")
+            return None
+
         ruta_archivo = self.modelo.exportar()
         if ruta_archivo == None or ruta_archivo == "()":
             print_debug("Algo falló, obtuve ruta None")

@@ -655,7 +655,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Riego Optimo"))
         self.centralwidget.setProperty("class", _translate("MainWindow", "background-white"))
         self.lvl_tituloPrograma.setText(_translate("MainWindow", "Proyecto 1 - Riego Óptimo"))
         self.lvl_tituloPrograma.setProperty("class", _translate("MainWindow", "h4 color-primary"))

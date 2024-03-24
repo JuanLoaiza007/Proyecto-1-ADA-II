@@ -8,6 +8,6 @@ class Temporizador:
         timer = QTimer()
         timer.setSingleShot(True)
         timer.timeout.connect(loop.quit)
-        tiempo_ms = tiempo_segundos * 1000
+        tiempo_ms = tiempo_segundos
         timer.start(tiempo_ms)
         loop.exec_()

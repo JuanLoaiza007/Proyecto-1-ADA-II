@@ -61,7 +61,7 @@ class controlador_principal:
 
     def mostrar_dialogo(self, titulo, mensaje):
         self.block_focus()
-        Temporizador.iniciar(0.0001)
+        Temporizador.iniciar(1)
 
         new_dialog = QtWidgets.QDialog()
         new_ui = sm_dialog_clean()
@@ -80,7 +80,7 @@ class controlador_principal:
     def cargar_archivo(self):
         self.ui.lbl_optimalidad.setText("")
         self.block_focus()
-        Temporizador.iniciar(0.0001)
+        Temporizador.iniciar(1)
         parsed = leer_archivo_txt()
 
         if parsed == None:
@@ -145,7 +145,7 @@ class controlador_principal:
 
     def exportar(self):
         self.block_focus()
-        Temporizador.iniciar(0.0001)
+        Temporizador.iniciar(1)
 
         if self.modelo.get_resultado() == None:
             titulo = "Error"

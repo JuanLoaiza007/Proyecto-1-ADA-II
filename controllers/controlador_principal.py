@@ -7,6 +7,8 @@ from models.modelo_principal import modelo_principal
 from models.tools.txt_parser import leer_archivo_txt
 from models.tools.temporizador import Temporizador
 from views.sm_dialog_clean import Ui_Dialog as sm_dialog_clean
+from PyQt5.QtCore import QThread
+
 
 debug = True
 
@@ -15,6 +17,20 @@ def print_debug(message):
     new_message = "controlador_principal.py: " + message
     if debug:
         print(new_message)
+
+
+class WorkerThread(QThread):
+    """
+    Clase de Hilo Trabajador para ejecutar procesamiento en segundo plano y conservar la ventana recibiendo eventos.
+    """
+
+    def __init__(self, modelo):
+
+        super().__init__()
+        self.modelo = modelo
+
+    def run(self):
+        self.modelo.iniciar()
 
 
 class controlador_principal:
@@ -47,12 +63,26 @@ class controlador_principal:
         self.MainWindow.show()
 
     def block_focus(self):
+        """
+        Funcion intuitiva para mostrar que la ventana principal NO es la que esta recibiendo eventos, ayuda a mostrar que el flujo de trabajo esta ocurriendo en otra ventana.
+        """
         self.MainWindow.setEnabled(False)
         self.ui.centralwidget.setEnabled(False)
         self.ui.centralwidget.setVisible(False)
         self.MainWindow.setFixedSize(self.MainWindow.size())
 
+    def little_block_focus(self):
+        """
+        Funcion intuitiva para mostrar que la ventana principal esta procesando sin embargo el flujo de trabajo esta actualmente en ella.
+        """
+        self.MainWindow.setEnabled(False)
+        self.ui.centralwidget.setEnabled(False)
+        self.MainWindow.setFixedSize(self.MainWindow.size())
+
     def unblock_focus(self):
+        """
+        Funcion intuitiva para revertir block_focus() y little_block_focus(), muestra que el flujo de trabajo esta ocurriendo en la ventana principal y habilita los eventos.
+        """
         self.MainWindow.setMinimumSize(self.MainWindow.minimumSizeHint())
         self.MainWindow.setMaximumSize(16777215, 16777215)
         self.MainWindow.setEnabled(True)
@@ -119,16 +149,9 @@ class controlador_principal:
             self.ui.box_algoritmo.currentIndex(),
             self.ui.box_algoritmo.currentText()))
 
-    def iniciar(self):
-        if self.modelo.get_finca() == None:
-            titulo = "Error"
-            mensaje = "Debe cargar un archivo antes de iniciar el algoritmo"
-            self.mostrar_dialogo(titulo, mensaje)
-            print_debug(
-                "No se pudo iniciar, el modelo no tiene una finca cargada.")
-            return None
+    def mostrar_resultados(self):
+        self.resultado = self.hilo_procesamiento.modelo.get_resultado()
 
-        self.resultado = self.modelo.iniciar()
         resultado_str = str(self.resultado)
         preview = self.modelo.prev_prog_exportable(self.resultado)
 
@@ -142,6 +165,27 @@ class controlador_principal:
 
         print_debug("El resultado del algoritmo es {}".format(
             str(self.resultado)))
+        self.unblock_focus()
+
+    def iniciar(self):
+        if self.modelo.get_finca() == None:
+            titulo = "Error"
+            mensaje = "Debe cargar un archivo antes de iniciar el algoritmo"
+            self.mostrar_dialogo(titulo, mensaje)
+            print_debug(
+                "No se pudo iniciar, el modelo no tiene una finca cargada.")
+            return None
+
+        # Bloquea los eventos de la ventana
+        self.little_block_focus()
+
+        # El proceso se hará en otro hilo para que la interfaz aun pueda responder
+        self.hilo_procesamiento = WorkerThread(self.modelo)
+        # Eventos que requieren los calculos del hilo
+        self.hilo_procesamiento.finished.connect(
+            self.mostrar_resultados)
+        # Inicia las tareas del hilo de la funcion run()
+        self.hilo_procesamiento.start()
 
     def exportar(self):
         self.block_focus()

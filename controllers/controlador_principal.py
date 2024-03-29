@@ -55,8 +55,14 @@ class controlador_principal:
         self.ui.btn_iniciar.clicked.connect(self.iniciar)
         self.ui.btn_exportar.clicked.connect(self.exportar)
         self.ui.btn_sobre.clicked.connect(self.mostrar_sobre_nosotros)
+        # Evento para cierre de programa
+        self.MainWindow.destroyed.connect(self.cerrar_ventana)
 
     # Funciones de ventana
+
+    def cerrar_ventana(self):
+        self.hilo_procesamiento.exit()
+        os._exit(0)
 
     def mostrar(self, main_window):
         self.cargar(main_window)

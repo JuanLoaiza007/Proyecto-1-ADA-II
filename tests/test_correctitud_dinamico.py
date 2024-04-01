@@ -1,6 +1,6 @@
 # from models.exhaustivo import *
 from models.dinamico import *
-from models.tools.lector_txt import leer_archivo_txt
+from models.tools.txt_parser import leer_archivo_txt
 
 
 class test_correctitud_dinamico:
@@ -11,7 +11,8 @@ class test_correctitud_dinamico:
         finca3 = [(4, 4, 1), (8, 4, 1), (16, 8, 1), (33, 16, 1)]
         finca4 = [(10, 3, 4), (5, 3, 3), (2, 2, 1), (6, 4, 2)]
 
-        finca = leer_archivo_txt()
+        parsed = leer_archivo_txt()
+        finca = parsed[0]
         # finca = finca4
         print("Solucion dinamica", roPD(finca), "\n\n")
         # print("Solucion exhaustiva", roFB(finca))

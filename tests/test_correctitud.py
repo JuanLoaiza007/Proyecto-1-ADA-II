@@ -1,5 +1,6 @@
 from models.exhaustivo import *
-from models.tools.lector_txt import leer_archivo_txt
+from models.tools.txt_parser import leer_archivo_txt
+
 
 class test_correctitud:
     def start():
@@ -15,7 +16,8 @@ class test_correctitud:
         # Cuando t_ini = tsup-treg costoRiegoTablon = 0clea
 
         # Cuando
-        
-        finca = leer_archivo_txt()
+
+        parsed = leer_archivo_txt()
+        finca = parsed[0]
 
         print("Optima es: ", roFB(finca))

@@ -11,7 +11,8 @@ class test_correctitud_voraz:
         finca3 = [(4, 4, 1), (8, 4, 1), (16, 8, 1), (33, 16, 1)]
         finca4 = [(10, 3, 4), (5, 3, 3), (2, 2, 1), (6, 4, 2)]
 
-        finca = leer_archivo_txt()
+        parsed = leer_archivo_txt()
+        finca = parsed[0]
         # finca = finca4
         print("Solucion voraz", roV(finca), "\n\n")
         # print("Solucion exhaustiva", roFB(finca))

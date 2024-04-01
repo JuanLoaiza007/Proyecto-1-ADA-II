@@ -30,7 +30,11 @@ class WorkerThread(QThread):
         self.modelo = modelo
 
     def run(self):
-        self.modelo.iniciar()
+        try:
+            self.modelo.iniciar()
+        except RecursionError:
+            print_debug(
+                "from run() in WorkerThread -> ERROR: He excedido el limite de recursion!!!")
 
 
 class controlador_principal:
@@ -51,7 +55,7 @@ class controlador_principal:
         self.todas_algoritmos()
 
         # Siempre limite_exhaustivo < limite_dinamico, si no puede con el exhaustivo menos con el dinamico
-        self.limite_exhaustivo = 7  # Significa que hasta este numero el algoritmo responde
+        self.limite_exhaustivo = 6  # Significa que hasta este numero el algoritmo responde
         self.limite_dinamico = 20  # Significa que hasta este numero el algoritmo responde
 
         # Listeners específicos
@@ -207,22 +211,28 @@ class controlador_principal:
             self.ui.box_algoritmo.currentText()))
 
     def mostrar_resultados(self):
-        self.resultado = self.hilo_procesamiento.modelo.get_resultado()
+        try:
+            self.resultado = self.hilo_procesamiento.modelo.get_resultado()
 
-        resultado_str = str(self.resultado)
-        preview = self.modelo.prev_prog_exportable(self.resultado)
+            resultado_str = str(self.resultado)
+            preview = self.modelo.prev_prog_exportable(self.resultado)
 
-        self.ui.txtE_salida.setText(
-            f"=== Interpretacion ===\nProgramación óptima {resultado_str} \n\n=== Archivo exportable ===\n{preview}")
+            self.ui.txtE_salida.setText(
+                f"=== Interpretacion ===\nProgramación óptima {resultado_str} \n\n=== Archivo exportable ===\n{preview}")
 
-        if str(self.modelo.get_algoritmo()) == "exhaustivo":
-            self.ui.lbl_optimalidad.setText("Es óptima")
-        else:
-            self.ui.lbl_optimalidad.setText("No asegura la óptima")
+            if str(self.modelo.get_algoritmo()) == "exhaustivo":
+                self.ui.lbl_optimalidad.setText("Es óptima")
+            else:
+                self.ui.lbl_optimalidad.setText("No asegura la óptima")
 
-        print_debug("El resultado del algoritmo es {}".format(
-            str(self.resultado)))
-        self.unblock_focus()
+            print_debug("El resultado del algoritmo es {}".format(
+                str(self.resultado)))
+            self.unblock_focus()
+        except TypeError:
+            print_debug("OJO, ha excedido el limite de recursion")
+            self.mostrar_dialogo(
+                "Error", "Hemos excedido el limite de recursion")
+            self.unblock_focus()
 
     def iniciar(self):
         if self.modelo.get_finca() == None:

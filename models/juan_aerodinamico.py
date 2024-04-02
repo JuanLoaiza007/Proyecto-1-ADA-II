@@ -1,10 +1,15 @@
 # [juan_aerodinamico.py]
 
-import numpy as np
 from models.types import *
 
-debug = True
+debug = False
 memoization_active = True
+
+
+def print_debug(message: str):
+    new_message = "{}: {}".format(__file__.split("/")[-1], message)
+    if debug:
+        print(new_message)
 
 
 class Ahorro():
@@ -16,16 +21,6 @@ class Ahorro():
 
     def get_ahorro(self):
         return self.ahorro
-
-
-def aumentar_ahorro():
-    calculos_ahorrados = calculos_ahorrados + 1
-
-
-def print_debug(message: str):
-    new_message = "{}: {}".format(__file__.split("/")[-1], message)
-    if debug:
-        print(new_message)
 
 
 """

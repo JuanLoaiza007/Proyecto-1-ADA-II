@@ -3,6 +3,12 @@ from models.types import *
 debug = False
 
 
+def print_debug(message: str):
+    new_message = "{}: {}".format(__file__.split("/")[-1], message)
+    if debug:
+        print(new_message)
+
+
 def roFB(f):
 
     def costoRiegoTablon(i, f, pi):
@@ -57,7 +63,7 @@ def roFB(f):
     if debug:
         i = 0
         for prog in programacionesRiego:
-            print(prog)
+            print_debug(str(prog))
 
             programacionDefault = []
             for j in range(0, len(programacionesRiego[0]), 1):
@@ -68,13 +74,14 @@ def roFB(f):
 
             t = 0
             for costo in costosTablones:
-                print("Tablon ", t, " cuesta: ", costo)
+                print_debug("Tablon {} cuesta: {}".format(str(t), str(costo)))
                 t += 1
 
-            print("Corresponde a la programacion: ", progCostos[i], "\n")
+            print_debug("Corresponde a la programacion: {}\n".format(
+                str(progCostos[i])))
             i += 1
 
-            print("")
+            print_debug("")
 
     def encontrarMinimo(optimaActual, costosRestantes):
         if not costosRestantes:

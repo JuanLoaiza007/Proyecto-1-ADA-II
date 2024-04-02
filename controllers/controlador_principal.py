@@ -56,7 +56,7 @@ class controlador_principal:
 
         # Siempre limite_exhaustivo < limite_dinamico, si no puede con el exhaustivo menos con el dinamico
         self.limite_exhaustivo = 6  # Significa que hasta este numero el algoritmo responde
-        self.limite_dinamico = 20  # Significa que hasta este numero el algoritmo responde
+        self.limite_dinamico = 18  # Significa que hasta este numero el algoritmo responde
 
         # Listeners específicos
         self.ui.btn_cargarArchivo.clicked.connect(self.cargar_archivo)
@@ -195,9 +195,7 @@ class controlador_principal:
         if algoritmo_seleccionado == "Fuerza bruta":
             self.modelo.set_algoritmo('exhaustivo')
         elif algoritmo_seleccionado == "Programación Dinámica":
-            print_debug(
-                "He cambiado el algoritmo a voraz, si ha creado un algoritmo dinamico no olvide cambiar esta parte")
-            self.modelo.set_algoritmo('voraz')
+            self.modelo.set_algoritmo('dinamico')
         elif algoritmo_seleccionado == "Programación Voraz":
             self.modelo.set_algoritmo('voraz')
         else:
@@ -220,10 +218,10 @@ class controlador_principal:
             self.ui.txtE_salida.setText(
                 f"=== Interpretacion ===\nProgramación óptima {resultado_str} \n\n=== Archivo exportable ===\n{preview}")
 
-            if str(self.modelo.get_algoritmo()) == "exhaustivo":
-                self.ui.lbl_optimalidad.setText("Es óptima")
-            else:
+            if str(self.modelo.get_algoritmo()) == "voraz":
                 self.ui.lbl_optimalidad.setText("No asegura la óptima")
+            else:
+                self.ui.lbl_optimalidad.setText("Es la solucion óptima")
 
             print_debug("El resultado del algoritmo es {}".format(
                 str(self.resultado)))

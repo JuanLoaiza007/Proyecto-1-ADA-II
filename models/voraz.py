@@ -1,6 +1,6 @@
 from models.types import *
 
-debug = True
+debug = False
 
 
 def print_debug(message: str):

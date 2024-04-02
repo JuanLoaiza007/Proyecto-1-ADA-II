@@ -1,68 +1,71 @@
 from models.types import *
 
-debug = False
+debug = True
 
 
-def calcularCostoComoUltimo(finca, ti):
-    """
-    Calcula el costo de un tablon considerandolo el ultimo
-
-    Args:
-        finca ([(),(),()]): La finca con sus tablones.
-        ti (int): El indice del tablon en la finca.
-
-    Returns:
-        int: El costo de regar el tablon como si fuera el ultimo.
-    """
-    tablon = finca.pop(ti)
-    t_ini = calcularTiempoFinalizacion(finca)
-    return costoRiegoTablonTini(tablon, t_ini)
-
-
-def calcularTiempoFinalizacion(f):
-    """
-    Calcula el tiempo de finalizacion de regar una finca
-
-    Args:
-        finca ([(),(),()]): La finca con sus tablones.
-
-    Returns:
-        int: El tiempo en el que se termina de regar la finca.
-    """
-    tiempoFinalizacion = 0
-    for i in range(0, len(f), 1):
-        tiempoFinalizacion += treg(f, i)
-
-    return tiempoFinalizacion
-
-
-def costoRiegoTablonTini(tablon, t_ini):
-    """
-    Calcula el costo de regar un tablon dado el tiempo de inicio
-
-    Args:
-        tablon ( (int, int, int) ): Un tablon.
-        t_ini (int): El tiempo de inicio en el que se empieza a regar el tablon.
-
-    Returns:
-        int: El costo de regar el tablon.
-    """
-    def tsup(t):
-        return tablon[0]
-
-    def treg(t):
-        return tablon[1]
-
-    def prio(t):
-        return tablon[2]
-
-    if tsup(tablon) - treg(tablon) >= t_ini:
-        return tsup(tablon) - (t_ini + treg(tablon))
-    else:
-        return prio(tablon) * (t_ini + treg(tablon) - tsup(tablon))
+def print_debug(message: str):
+    new_message = "{}: {}".format(__file__.split("/")[-1], message)
+    if debug:
+        print(new_message)
 
 
 def roV(f):
+
+    def calcularCostoComoUltimo(finca, ti):
+        """
+        Calcula el costo de un tablon considerandolo el ultimo
+
+        Args:
+            finca ([(),(),()]): La finca con sus tablones.
+            ti (int): El indice del tablon en la finca.
+
+        Returns:
+            int: El costo de regar el tablon como si fuera el ultimo.
+        """
+        tablon = finca.pop(ti)
+        t_ini = calcularTiempoFinalizacion(finca)
+        return costoRiegoTablonTini(tablon, t_ini)
+
+    def calcularTiempoFinalizacion(f):
+        """
+        Calcula el tiempo de finalizacion de regar una finca
+
+        Args:
+            finca ([(),(),()]): La finca con sus tablones.
+
+        Returns:
+            int: El tiempo en el que se termina de regar la finca.
+        """
+        tiempoFinalizacion = 0
+        for i in range(0, len(f), 1):
+            tiempoFinalizacion += treg(f, i)
+
+        return tiempoFinalizacion
+
+    def costoRiegoTablonTini(tablon, t_ini):
+        """
+        Calcula el costo de regar un tablon dado el tiempo de inicio
+
+        Args:
+            tablon ( (int, int, int) ): Un tablon.
+            t_ini (int): El tiempo de inicio en el que se empieza a regar el tablon.
+
+        Returns:
+            int: El costo de regar el tablon.
+        """
+        def tsup(t):
+            return tablon[0]
+
+        def treg(t):
+            return tablon[1]
+
+        def prio(t):
+            return tablon[2]
+
+        if tsup(tablon) - treg(tablon) >= t_ini:
+            return tsup(tablon) - (t_ini + treg(tablon))
+        else:
+            return prio(tablon) * (t_ini + treg(tablon) - tsup(tablon))
 
     def costoRiegoTablon(i, f, pi):
 

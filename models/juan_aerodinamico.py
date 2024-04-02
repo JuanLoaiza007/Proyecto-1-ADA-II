@@ -78,13 +78,39 @@ progOptima(finca):t
 
 
 def costoRiegoTablon(t: Tablon, t_ini: int):
+    """
+    Calcula el costo de regar un tablon dado su tiempo de inicio, usa directamente la propiedad del enunciado.
+
+    Args:
+        t (Tablon): El tablón a calcular.
+        t_ini (int): Un tiempo de inicio.
+
+    Returns:
+        (int): El costo de regar el tablon t.
+    """
+    costo = 0
+
     if tsup_t(t) - treg_t(t) >= t_ini:
-        return tsup_t(t) - (t_ini + treg_t(t))
+
+        costo = tsup_t(t) - (t_ini + treg_t(t))
     else:
-        return prio_t(t) * ((t_ini + treg_t(t)) - tsup_t(t))
+        costo = prio_t(t) * ((t_ini + treg_t(t)) - tsup_t(t))
+
+    print_debug("costoRiegoTablon() -> El costo de {} con tini {} es {}".format(
+        str(t), str(t_ini), str(costo)))
+    return costo
 
 
 def costoRiegoFinca(f: Finca):
+    """
+    Calcula el costo de regar la finca CON EL MISMO ORDEN DE RIEGO EN QUE SE DA LA FINCA.
+
+    Args:
+        f (Finca): La finca que se desea calcular.
+
+    Returns: 
+        (int): El costo de regar la finca.
+    """
     costo = 0
     t_ini = 0
 
@@ -95,6 +121,9 @@ def costoRiegoFinca(f: Finca):
 
 
 def roPD(f):
+
+    print_debug("El costo de regar la finca {} en ese orden es: {}".format(
+        str(f), str(costoRiegoFinca(f))))
 
     temp_return = ["¡TEMPORARY RETURN!", "¡TEMPORARY RETURN!"]
 

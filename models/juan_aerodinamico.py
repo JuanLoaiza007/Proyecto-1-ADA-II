@@ -43,42 +43,58 @@ costo(progOptima(t3))
 )
 
 === pseudocodigo ===
-...
+
+
+
+        
+costoOptimo(finca: Finca):
+
+    // Aqui empiezo a trabajar
+    copia_finca = finca[:]
+
+    if len(copia_finca) == 1:
+        tablon = copia_finca.pop(0)
+        return costoRiegoTablon(tablon, 0)
+    else: 
+        
+            min(
+                costo(
+                    for tablon in copia_finca:
+                        otra_copia_finca = finca[:]
+                        otra_copia_finca.remove(tablon).append(tablon)
+                )
+            )
+
+    
+progOptima(finca):t
+
+    tablones = finca[:] // Copiamos los tablones
+    indice_original = {i: i for i in range(len(tablones))}
+
+    if len(finca) == 1:
+        return [(finca[0]), calcularCosto(finca[0])]
+    else:
 """
 
 
+def costoRiegoTablon(t: Tablon, t_ini: int):
+    if tsup_t(t) - treg_t(t) >= t_ini:
+        return tsup_t(t) - (t_ini + treg_t(t))
+    else:
+        return prio_t(t) * ((t_ini + treg_t(t)) - tsup_t(t))
+
+
+def costoRiegoFinca(f: Finca):
+    costo = 0
+    t_ini = 0
+
+    for t in f:
+        costo += costoRiegoTablon(t, t_ini)
+        t_ini += treg_t(t)
+    return costo
+
+
 def roPD(f):
-
-    def costoRiegoTablon(i, f, pi):
-
-        def calcularTiempoInicio(tablon):
-
-            if tablon == pi[0]:
-                return 0
-            else:
-                return calcularTiempoInicio(pi[pi.index(tablon) - 1]) + treg(f, pi[pi.index(tablon) - 1])
-
-        def costoRiego(ti):
-            if tsup(f, i) - treg(f, i) >= ti:
-                return tsup(f, i) - (ti + treg(f, i))
-            else:
-                return prio(f, i) * ((ti + treg(f, i)) - tsup(f, i))
-
-        tiemposInicioRiego = [calcularTiempoInicio(ti) for ti in range(len(f))]
-
-        return costoRiego(tiemposInicioRiego[i])
-
-    def costoRiegoFinca(f, pi):
-
-        costos = [costoRiegoTablon(i, f, pi) for i in range(len(f))]
-
-        def sumarElementos(vector):
-            if not vector:
-                return 0
-            else:
-                return vector[0] + sumarElementos(vector[1:])
-
-        return sumarElementos(costos)
 
     temp_return = ["¡TEMPORARY RETURN!", "¡TEMPORARY RETURN!"]
 

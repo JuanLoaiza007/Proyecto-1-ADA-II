@@ -63,12 +63,19 @@ La chimbaaaaaa, si ya tenemos costos con memorizacion vamos guardando las progra
 
 
 def roPD(f):
-    ahorro = Ahorro()
-    print_debug("Obtuve la finca: {}\n\n".format(str(f)))
-
     def minProgCostoT(l_prog_costo):
         """
-        Ej: minProgCostoT([[[(1, 2, 3), (4, 5, 6)], 0], [[(4, 5, 6), (1, 2, 3)], 2], [[(1, 2, 3)], -1] ])
+        Saca la programacionCosto con el valor minimo de una lista de programacionCosto.
+        programacionCosto es list(list(tablon), int)
+
+        Args: 
+            l_prog_costo (list(programacionCosto)): Una lista de programaciones y sus costos
+
+        Returns:
+            prog_opt (programacionCosto): La programacionCosto con el menor costo
+
+        Example: 
+        minProgCostoT([[[(1, 2, 3), (4, 5, 6)], 0], [[(4, 5, 6), (1, 2, 3)], 2], [[(1, 2, 3)], -1] ])
         -> [[(1, 2, 3)], -1]
         """
         prog_opt = l_prog_costo[0]
@@ -81,7 +88,24 @@ def roPD(f):
                 prog_opt = prog
         return prog_opt
 
-    def sumProgCostoT(pc1, pc2):
+    def combinarProgCostoT(pc1, pc2):
+        """
+        Combina dos programacionCosto, ATENCION: Lea los Args.
+        programacionCosto es list(list(tablon), int)
+
+        Args:
+            pc1 (programacionCosto): Una programacion de varios tablones con su costo, esta se refiere a los primeros tablones en ser regados.
+            pc2 (programacionCosto): Una programacion de un solo tablon con su costo. EL COSTO DEBE HABERSE CALCULADO TENIENDO EN MENTE QUE SE ANEXARIA AL FINAL DE pc1.
+
+        Returns:
+            [prog, costo] (programacionCosto): La programacionCosto resultante de regar el tablon de pc2 despues de los de pc1
+
+        Ejemplo:
+        pc1 = [[(1, 2, 3), (4, 5, 6)], 2]
+        pc2 = [[(6, 7, 8)], 3]
+        sumProgCostoT(pc1, pc2)
+        -> [[(1, 2, 3), (4, 5, 6), (6, 7, 8)], 5]
+        """
         prog = list(pc1[0])
         prog.append(pc2[0][0])
         costo = pc1[1] + pc2[1]
@@ -188,24 +212,33 @@ def roPD(f):
                 copia_tablon = copia_finca.pop(i)
                 t_ini_local = tiempo_total - treg_t(copia_tablon)
 
-                # print_debug("La finca original es {}".format(str(f)))
-                # print_debug("copia_finca recortada {} de len {}\ntablon extraido {}\nt_ini {}\n\n".format(
-                #     str(copia_finca), str(len(copia_finca)), str(copia_tablon), str(t_ini_local)))
-
                 pc1 = progCostoOptima(copia_finca)
-                pc2 = progCostoOptima(list(copia_tablon))
-                prog_costo_act = sumProgCostoT(pc1, pc2)
+                pc2 = list(([copia_tablon],
+                           costoRiegoTablon(copia_tablon, t_ini_local)))
+
+                prog_costo_act = combinarProgCostoT(pc1, pc2)
 
                 programaciones.append(prog_costo_act)
 
             return minProgCostoT(programaciones)
 
+    ahorro = Ahorro()
+    print_debug("Obtuve la finca: {}\n\n".format(str(f)))
+
     # Pondré los diccionarios aqui pa que no me estorben en los argumentos de la funcion Atte: Juan
     dic_memoization = {}
-    # sol_optima = progCostoOptima(f)
+    dic_tablon_indice = {tupla: indice for indice, tupla in enumerate(f)}
 
-    # print_debug("La solucion optima es: {}".format(str(sol_optima)))
-    # print_debug("Memorizacion ha ahorrado {} calculos".format(
-    #     str(ahorro.get_ahorro())))
+    prog_costo_optima = progCostoOptima(f)
+    programacion_t = prog_costo_optima[0]
+    costo = prog_costo_optima[1]
 
-    return ["None", costoOptimo(f)]
+    costo_calculado = costoRiegoFinca(programacion_t)
+    print_debug("Diccionario: {}\n".format(str(dic_tablon_indice)))
+    print_debug("El costo de regar {} es {}\n".format(
+        str(programacion_t), str(costo_calculado)))
+    programacion_i = []
+    for tablon in programacion_t:
+        programacion_i.append(dic_tablon_indice[tablon])
+
+    return [programacion_i, costo]

@@ -56,7 +56,7 @@ class controlador_principal:
 
         # Siempre limite_exhaustivo < limite_dinamico, si no puede con el exhaustivo menos con el dinamico
         self.limite_exhaustivo = 6  # Significa que hasta este numero el algoritmo responde
-        self.limite_dinamico = 18  # Significa que hasta este numero el algoritmo responde
+        self.limite_dinamico = 20  # Significa que hasta este numero el algoritmo responde
 
         # Listeners específicos
         self.ui.btn_cargarArchivo.clicked.connect(self.cargar_archivo)

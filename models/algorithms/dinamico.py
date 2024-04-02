@@ -2,7 +2,7 @@
 
 from models.algorithms.datatypes.types import *
 
-debug = True
+debug = False
 
 
 def print_debug(message: str):

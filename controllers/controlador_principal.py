@@ -74,13 +74,19 @@ class controlador_principal:
     # Funciones de ventana
 
     def cerrar_ventana(self):
+
+        def cierre_forzoso():
+            print_debug(
+                "cerrar_ventana() -> Absorbí el error de cerrar el hilo de procesamiento")
+            os._exit(0)
+
         try:
             self.hilo_procesamiento.exit()
             os._exit(0)
         except AttributeError:
-            print_debug(
-                "cerrar_ventana() -> Absorbí el error de cerrar el hilo de procesamiento")
-            os._exit(0)
+            cierre_forzoso()
+        except RuntimeError:
+            cierre_forzoso()
 
     def mostrar(self, main_window):
         self.cargar(main_window)

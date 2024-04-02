@@ -153,17 +153,15 @@ def roPD(f):
             dic_memoization[tuple(finca)] = min(costos)
             print_debug("Tamaño del diccionario: {}".format(
                 str(len(dic_memoization))))
-            dic_solucion[tuple(finca)] = finca[costos.index(min(costos))]
             return min(costos)
 
     # Pondré los diccionarios aqui pa que no me estorben en los argumentos de la funcion Atte: Juan
     dic_memoization = {}
-    dic_solucion = {}
     costo_optimo = costoOptimo(f)
 
     print_debug("Memorizacion ha ahorrado {} calculos".format(
         str(ahorro.get_ahorro())))
 
-    temp_return = [dic_solucion[tuple(f)], costo_optimo]
+    temp_return = ['Error', costo_optimo]
 
     return temp_return

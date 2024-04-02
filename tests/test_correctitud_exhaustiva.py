@@ -1,9 +1,9 @@
-from models.voraz import *
+from models.exhaustivo import *
 from models.tools.txt_parser import leer_archivo_txt
 
 
-class test_correctitud_voraz:
+class test_correctitud:
     def start():
         parsed = leer_archivo_txt()
         finca = parsed[0]
-        print("Solucion voraz", roV(finca), "\n\n")
+        print("Optima es: ", roFB(finca))

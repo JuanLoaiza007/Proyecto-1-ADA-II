@@ -1,4 +1,4 @@
-from models.exhaustivo import *
+from models.algorithms.exhaustivo import *
 from models.tools.txt_parser import leer_archivo_txt
 
 

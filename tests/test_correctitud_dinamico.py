@@ -1,5 +1,6 @@
-from models.dinamico import *
+from models.algorithms.datatypes.types import *
 from models.tools.txt_parser import leer_archivo_txt
+from models.algorithms.dinamico import roPD
 
 
 class test_correctitud_dinamico:

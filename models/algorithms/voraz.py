@@ -1,4 +1,4 @@
-from models.types import *
+from models.algorithms.datatypes.types import *
 
 debug = False
 

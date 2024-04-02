@@ -1,9 +1,9 @@
 # [modelo_principal.py]
 
 from models.tools.txt_parser import exportar_programacion_txt
-from models.exhaustivo import roFB
-from models.voraz import roV
-from models.juan_aerodinamico import roPD
+from models.algorithms.exhaustivo import roFB
+from models.algorithms.voraz import roV
+from models.algorithms.dinamico import roPD
 
 debug = True
 

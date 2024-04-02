@@ -1,6 +1,6 @@
-# [juan_aerodinamico.py]
+# [dinamico.py]
 
-from models.types import *
+from models.algorithms.datatypes.types import *
 
 debug = True
 

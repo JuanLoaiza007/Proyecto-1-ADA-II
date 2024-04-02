@@ -1,4 +1,4 @@
-from models.voraz import *
+from models.algorithms.voraz import *
 from models.tools.txt_parser import leer_archivo_txt
 
 

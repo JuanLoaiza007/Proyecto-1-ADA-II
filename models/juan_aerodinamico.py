@@ -162,6 +162,6 @@ def roPD(f):
     print_debug("Memorizacion ha ahorrado {} calculos".format(
         str(ahorro.get_ahorro())))
 
-    temp_return = ['Error', costo_optimo]
+    temp_return = ['...', costo_optimo]
 
     return temp_return

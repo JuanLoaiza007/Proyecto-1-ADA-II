@@ -2,7 +2,7 @@
 
 from models.types import *
 
-debug = True
+debug = False
 memoization_active = True
 
 
@@ -204,6 +204,9 @@ def roPD(f):
         if len(finca) == 1:
             return [finca, costoRiegoFinca(finca)]
         else:
+            if tuple(finca) in dic_memoization_sol:
+                ahorro.aumentar_ahorro()
+                return dic_memoization_sol[tuple(finca)]
             tiempo_total = tiempoRiegoFinca(finca)
             programaciones = []
 
@@ -220,6 +223,7 @@ def roPD(f):
 
                 programaciones.append(prog_costo_act)
 
+            dic_memoization_sol[tuple(finca)] = minProgCostoT(programaciones)
             return minProgCostoT(programaciones)
 
     ahorro = Ahorro()
@@ -227,6 +231,7 @@ def roPD(f):
 
     # Pondré los diccionarios aqui pa que no me estorben en los argumentos de la funcion Atte: Juan
     dic_memoization = {}
+    dic_memoization_sol = {}
     dic_tablon_indice = {tupla: indice for indice, tupla in enumerate(f)}
 
     prog_costo_optima = progCostoOptima(f)
@@ -234,9 +239,12 @@ def roPD(f):
     costo = prog_costo_optima[1]
 
     costo_calculado = costoRiegoFinca(programacion_t)
+
     print_debug("Diccionario: {}\n".format(str(dic_tablon_indice)))
     print_debug("El costo de regar {} es {}\n".format(
         str(programacion_t), str(costo_calculado)))
+    print("Calculos ahorrados: {}".format(str(ahorro.get_ahorro())))
+
     programacion_i = []
     for tablon in programacion_t:
         programacion_i.append(dic_tablon_indice[tablon])

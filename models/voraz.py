@@ -53,19 +53,10 @@ def roV(f):
         Returns:
             int: El costo de regar el tablon.
         """
-        def tsup(t):
-            return tablon[0]
-
-        def treg(t):
-            return tablon[1]
-
-        def prio(t):
-            return tablon[2]
-
-        if tsup(tablon) - treg(tablon) >= t_ini:
-            return tsup(tablon) - (t_ini + treg(tablon))
+        if tsup_t(tablon) - treg_t(tablon) >= t_ini:
+            return tsup_t(tablon) - (t_ini + treg_t(tablon))
         else:
-            return prio(tablon) * (t_ini + treg(tablon) - tsup(tablon))
+            return prio_t(tablon) * (t_ini + treg_t(tablon) - tsup_t(tablon))
 
     def costoRiegoTablon(i, f, pi):
 

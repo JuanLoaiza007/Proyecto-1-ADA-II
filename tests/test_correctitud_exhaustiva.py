@@ -6,4 +6,4 @@ class test_correctitud:
     def start():
         parsed = leer_archivo_txt()
         finca = parsed[0]
-        print("Optima es: ", roFB(finca))
+        print("Solucion exhaustiva: ", roFB(finca))

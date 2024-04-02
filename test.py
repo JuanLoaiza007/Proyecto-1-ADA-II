@@ -6,6 +6,6 @@ from tests.test_correctitud_exhaustiva import test_correctitud as test_exhaustiv
 # from tests.test_correctitud import test_correctitud as test
 
 if __name__ == '__main__':
-    test_voraz.start()
     test_exhaustiva.start()
     test_dinamico.start()
+    test_voraz.start()

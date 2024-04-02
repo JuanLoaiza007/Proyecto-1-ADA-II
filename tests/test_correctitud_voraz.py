@@ -6,4 +6,4 @@ class test_correctitud_voraz:
     def start():
         parsed = leer_archivo_txt()
         finca = parsed[0]
-        print("Solucion voraz", roV(finca), "\n\n")
+        print("Solucion voraz: ", roV(finca))

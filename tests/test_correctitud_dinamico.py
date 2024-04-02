@@ -7,4 +7,4 @@ class test_correctitud_dinamico:
     def start():
         parsed = leer_archivo_txt()
         finca = parsed[0]
-        print("Solucion dinamica", roPD(finca), "\n\n")
+        print("Solucion dinamica: ", roPD(finca))

@@ -2,7 +2,7 @@
 
 from models.types import *
 
-debug = False
+debug = True
 memoization_active = True
 
 
@@ -65,6 +65,27 @@ La chimbaaaaaa, si ya tenemos costos con memorizacion vamos guardando las progra
 def roPD(f):
     ahorro = Ahorro()
     print_debug("Obtuve la finca: {}\n\n".format(str(f)))
+
+    def minProgCostoT(l_prog_costo):
+        """
+        Ej: minProgCostoT([[[(1, 2, 3), (4, 5, 6)], 0], [[(4, 5, 6), (1, 2, 3)], 2], [[(1, 2, 3)], -1] ])
+        -> [[(1, 2, 3)], -1]
+        """
+        prog_opt = l_prog_costo[0]
+        if len(l_prog_costo) == 1:
+            print("Lista tamaño 1")
+            return prog_opt
+
+        for prog in l_prog_costo:
+            if prog[1] < prog_opt[1]:
+                prog_opt = prog
+        return prog_opt
+
+    def sumProgCostoT(pc1, pc2):
+        prog = list(pc1[0])
+        prog.append(pc2[0][0])
+        costo = pc1[1] + pc2[1]
+        return [prog, costo]
 
     def tiempoRiegoFinca(f: Finca):
         """
@@ -155,13 +176,36 @@ def roPD(f):
                 str(len(dic_memoization))))
             return min(costos)
 
+    def progCostoOptima(finca: Finca):
+        if len(finca) == 1:
+            return [finca, costoRiegoFinca(finca)]
+        else:
+            tiempo_total = tiempoRiegoFinca(finca)
+            programaciones = []
+
+            for i in range(len(finca)):
+                copia_finca = finca[:]
+                copia_tablon = copia_finca.pop(i)
+                t_ini_local = tiempo_total - treg_t(copia_tablon)
+
+                # print_debug("La finca original es {}".format(str(f)))
+                # print_debug("copia_finca recortada {} de len {}\ntablon extraido {}\nt_ini {}\n\n".format(
+                #     str(copia_finca), str(len(copia_finca)), str(copia_tablon), str(t_ini_local)))
+
+                pc1 = progCostoOptima(copia_finca)
+                pc2 = progCostoOptima(list(copia_tablon))
+                prog_costo_act = sumProgCostoT(pc1, pc2)
+
+                programaciones.append(prog_costo_act)
+
+            return minProgCostoT(programaciones)
+
     # Pondré los diccionarios aqui pa que no me estorben en los argumentos de la funcion Atte: Juan
     dic_memoization = {}
-    costo_optimo = costoOptimo(f)
+    # sol_optima = progCostoOptima(f)
 
-    print_debug("Memorizacion ha ahorrado {} calculos".format(
-        str(ahorro.get_ahorro())))
+    # print_debug("La solucion optima es: {}".format(str(sol_optima)))
+    # print_debug("Memorizacion ha ahorrado {} calculos".format(
+    #     str(ahorro.get_ahorro())))
 
-    temp_return = ['...', costo_optimo]
-
-    return temp_return
+    return ["None", costoOptimo(f)]

@@ -69,6 +69,7 @@ class controlador_principal:
         self.MainWindow.destroyed.connect(self.cerrar_ventana)
 
         self.ui.lbl_optimalidad.setText("")
+        self.ui.lbl_archivo_cargado.setText("No hay archivo cargado")
         self.ui.box_algoritmo.setCurrentIndex(0)
 
     # Funciones de ventana
@@ -166,6 +167,14 @@ class controlador_principal:
 
         finca = parsed[0]
         txt = parsed[1]
+        nombre_archivo = parsed[2]
+
+        limite_letras = 15
+        if len(nombre_archivo) > limite_letras:
+            nombre_archivo = nombre_archivo[:limite_letras] + "... .txt"
+
+        self.ui.lbl_archivo_cargado.setText(str(nombre_archivo))
+
         self.modelo.set_finca(finca)
         cantidad_fincas = len(self.modelo.get_finca())
 

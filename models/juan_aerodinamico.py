@@ -1,3 +1,6 @@
+# [juan_aerodinamico.py]
+
+import numpy as np
 from models.types import *
 
 debug = True
@@ -41,90 +44,106 @@ costo(progOptima(t3))
 = minCosto(
     progOptima(t3)                  // Es trivial!!!
 )
-
-=== pseudocodigo ===
-
-
-
-        
-costoOptimo(finca: Finca):
-
-    // Aqui empiezo a trabajar
-    copia_finca = finca[:]
-
-    if len(copia_finca) == 1:
-        tablon = copia_finca.pop(0)
-        return costoRiegoTablon(tablon, 0)
-    else: 
-        
-            min(
-                costo(
-                    for tablon in copia_finca:
-                        otra_copia_finca = finca[:]
-                        otra_copia_finca.remove(tablon).append(tablon)
-                )
-            )
-
-    
-progOptima(finca):t
-
-    tablones = finca[:] // Copiamos los tablones
-    indice_original = {i: i for i in range(len(tablones))}
-
-    if len(finca) == 1:
-        return [(finca[0]), calcularCosto(finca[0])]
-    else:
 """
 
 
-def costoRiegoTablon(t: Tablon, t_ini: int):
-    """
-    Calcula el costo de regar un tablon dado su tiempo de inicio, usa directamente la propiedad del enunciado.
-
-    Args:
-        t (Tablon): El tablón a calcular.
-        t_ini (int): Un tiempo de inicio.
-
-    Returns:
-        (int): El costo de regar el tablon t.
-    """
-    costo = 0
-
-    if tsup_t(t) - treg_t(t) >= t_ini:
-
-        costo = tsup_t(t) - (t_ini + treg_t(t))
-    else:
-        costo = prio_t(t) * ((t_ini + treg_t(t)) - tsup_t(t))
-
-    print_debug("costoRiegoTablon() -> El costo de {} con tini {} es {}".format(
-        str(t), str(t_ini), str(costo)))
-    return costo
-
-
-def costoRiegoFinca(f: Finca):
-    """
-    Calcula el costo de regar la finca CON EL MISMO ORDEN DE RIEGO EN QUE SE DA LA FINCA.
-
-    Args:
-        f (Finca): La finca que se desea calcular.
-
-    Returns: 
-        (int): El costo de regar la finca.
-    """
-    costo = 0
-    t_ini = 0
-
-    for t in f:
-        costo += costoRiegoTablon(t, t_ini)
-        t_ini += treg_t(t)
-    return costo
-
-
 def roPD(f):
+    print_debug("Obtuve la finca: {}\n\n".format(str(f)))
 
-    print_debug("El costo de regar la finca {} en ese orden es: {}".format(
-        str(f), str(costoRiegoFinca(f))))
+    def tiempoRiegoFinca(f: Finca):
+        """
+        Calcula todo el tiempo que tarda regar una finca, este dato sirve también como el t_ini del proximo tablon que se agregue a la finca.
 
-    temp_return = ["¡TEMPORARY RETURN!", "¡TEMPORARY RETURN!"]
+        Args:
+            f (Finca): La finca que se desea comprobar
+
+        Returns:
+            tiempo (int): El tiempo que tarda en regar la finca.
+        """
+
+        tiempo = 0
+
+        for t in f:
+            tiempo += treg_t(t)
+
+        return tiempo
+
+    def costoRiegoTablon(t: Tablon, t_ini: int):
+        """
+        Calcula el costo de regar un tablon dado su tiempo de inicio, usa directamente la propiedad del enunciado.
+
+        Args:
+            t (Tablon): El tablón a calcular.
+            t_ini (int): Un tiempo de inicio.
+
+        Returns:
+            (int): El costo de regar el tablon t.
+        """
+        costo = 0
+
+        if tsup_t(t) - treg_t(t) >= t_ini:
+
+            costo = tsup_t(t) - (t_ini + treg_t(t))
+        else:
+            costo = prio_t(t) * ((t_ini + treg_t(t)) - tsup_t(t))
+
+        print_debug("costoRiegoTablon() -> El costo de {} con tini {} es {}".format(
+            str(t), str(t_ini), str(costo)))
+        return costo
+
+    def costoRiegoFinca(f: Finca):
+        """
+        Calcula el costo de regar la finca CON EL MISMO ORDEN DE RIEGO EN QUE SE DA LA FINCA.
+
+        Args:
+            f (Finca): La finca que se desea calcular.
+
+        Returns: 
+            (int): El costo de regar la finca.
+        """
+        costo = 0
+        t_ini = 0
+
+        for t in f:
+            costo += costoRiegoTablon(t, t_ini)
+            t_ini += treg_t(t)
+        return costo
+
+    def costoOptimo(finca: Finca):
+
+        if len(finca) == 1:
+            return costoRiegoFinca(finca)
+        else:
+            tiempo_total = tiempoRiegoFinca(finca)
+            costos = []
+
+            for i in range(len(finca)):
+                print_debug("Iteracion #{}".format(str(i+1)))
+
+                copia_finca = finca[:]
+                copia_tablon = copia_finca.pop(i)
+                t_ini_local = tiempo_total - treg_t(copia_tablon)
+
+                print_debug("La finca original es {}".format(str(f)))
+                print_debug("copia_finca recortada {} de len {}\ntablon extraido {}\nt_ini {}\n\n".format(
+                    str(copia_finca), str(len(copia_finca)), str(copia_tablon), str(t_ini_local)))
+
+                # print_debug("Se calculará {}".format(
+                #     str(copia_finca.append(copia_tablon))))
+                costo_act = costoOptimo(copia_finca) + \
+                    costoRiegoTablon(copia_tablon, t_ini_local)
+                costos.append(costo_act)
+
+                print_debug("Costos es {}\n".format(
+                    str(costos)))
+
+            return min(costos)
+
+    costo_optimo = costoOptimo(f)
+
+    print_debug("El costo minimo que puedo obtener es: {}".format(
+        str(costo_optimo)))
+
+    temp_return = ["¡TEMPORARY RETURN!", costo_optimo]
 
     return temp_return

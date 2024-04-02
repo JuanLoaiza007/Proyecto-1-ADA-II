@@ -30,7 +30,11 @@ class WorkerThread(QThread):
         self.modelo = modelo
 
     def run(self):
-        self.modelo.iniciar()
+        try:
+            self.modelo.iniciar()
+        except RecursionError:
+            print_debug(
+                "from run() in WorkerThread -> ERROR: He excedido el limite de recursion!!!")
 
 
 class controlador_principal:
@@ -44,9 +48,15 @@ class controlador_principal:
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.MainWindow)
 
-        self.ui.lbl_optimalidad.setText("")
-        self.ui.box_algoritmo.setCurrentIndex(0)
-        self.modelo.set_algoritmo('exhaustivo')
+        self.fb_pd_pv = ["Fuerza bruta",
+                         "Programación Dinámica", "Programación Voraz"]
+        self.pd_pv = ["Programación Dinámica", "Programación Voraz"]
+        self.pv = ["Programación Voraz"]
+        self.todas_algoritmos()
+
+        # Siempre limite_exhaustivo < limite_dinamico, si no puede con el exhaustivo menos con el dinamico
+        self.limite_exhaustivo = 6  # Significa que hasta este numero el algoritmo responde
+        self.limite_dinamico = 18  # Significa que hasta este numero el algoritmo responde
 
         # Listeners específicos
         self.ui.btn_cargarArchivo.clicked.connect(self.cargar_archivo)
@@ -58,15 +68,45 @@ class controlador_principal:
         # Evento para cierre de programa
         self.MainWindow.destroyed.connect(self.cerrar_ventana)
 
+        self.ui.lbl_optimalidad.setText("")
+        self.ui.lbl_archivo_cargado.setText("No hay archivo cargado")
+        self.ui.box_algoritmo.setCurrentIndex(0)
+
     # Funciones de ventana
 
     def cerrar_ventana(self):
-        self.hilo_procesamiento.exit()
-        os._exit(0)
+
+        def cierre_forzoso():
+            print_debug(
+                "cerrar_ventana() -> Absorbí el error de cerrar el hilo de procesamiento")
+            os._exit(0)
+
+        try:
+            self.hilo_procesamiento.exit()
+            os._exit(0)
+        except AttributeError:
+            cierre_forzoso()
+        except RuntimeError:
+            cierre_forzoso()
 
     def mostrar(self, main_window):
         self.cargar(main_window)
         self.MainWindow.show()
+
+    def todas_algoritmos(self):
+        self.ui.box_algoritmo.clear()
+        self.ui.box_algoritmo.addItems(self.fb_pd_pv)
+        self.ui.box_algoritmo.setCurrentIndex(0)
+
+    def todas_excepto_exhaustiva(self):
+        self.ui.box_algoritmo.clear()
+        self.ui.box_algoritmo.addItems(self.pd_pv)
+        self.ui.box_algoritmo.setCurrentIndex(0)
+
+    def solo_voraz(self):
+        self.ui.box_algoritmo.clear()
+        self.ui.box_algoritmo.addItems(self.pv)
+        self.ui.box_algoritmo.setCurrentIndex(0)
 
     def block_focus(self):
         """
@@ -127,7 +167,33 @@ class controlador_principal:
 
         finca = parsed[0]
         txt = parsed[1]
+        nombre_archivo = parsed[2]
+
+        limite_letras = 15
+        if len(nombre_archivo) > limite_letras:
+            nombre_archivo = nombre_archivo[:limite_letras] + "... .txt"
+
+        self.ui.lbl_archivo_cargado.setText(str(nombre_archivo))
+
         self.modelo.set_finca(finca)
+        cantidad_fincas = len(self.modelo.get_finca())
+
+        # Siempre limite_exhaustivo < limite_dinamico, si no puede con el exhaustivo menos con el dinamico
+        if cantidad_fincas > self.limite_exhaustivo:
+            if cantidad_fincas > self.limite_dinamico:
+                self.solo_voraz()
+                self.mostrar_dialogo(
+                    "Advertencia", "Se ha deshabilitado Fuerza Bruta y Programación Dinámica, podrian colapsar el programa con esta cantidad de tablones")
+            else:
+                self.todas_excepto_exhaustiva()
+                self.mostrar_dialogo(
+                    "Advertencia", "Se ha deshabilitado Fuerza Bruta, podria colapsar el programa con esta cantidad de tablones")
+            print_debug(
+                "cargar_archivo() -> He deshabilitado algunos algoritmos")
+        else:
+            self.todas_algoritmos()
+            print_debug(
+                "cargar_archivo() -> He habilitado todos los algoritmos")
 
         finca_str = str(self.modelo.get_finca())
         txt_str = str(txt)
@@ -138,16 +204,18 @@ class controlador_principal:
         self.unblock_focus()
 
     def cambiar_algoritmo(self):
+        algoritmo_seleccionado = self.ui.box_algoritmo.currentText()
         self.ui.lbl_optimalidad.setText("")
-        indice_actual = self.ui.box_algoritmo.currentIndex()
-        if indice_actual == 0:
+
+        if algoritmo_seleccionado == "Fuerza bruta":
             self.modelo.set_algoritmo('exhaustivo')
-        elif indice_actual == 1:
-            print_debug(
-                "He cambiado el algoritmo a voraz, si ha creado un algoritmo dinamico no olvide cambiar esta parte")
+        elif algoritmo_seleccionado == "Programación Dinámica":
+            self.modelo.set_algoritmo('dinamico')
+        elif algoritmo_seleccionado == "Programación Voraz":
             self.modelo.set_algoritmo('voraz')
-        elif indice_actual == 2:
-            self.modelo.set_algoritmo('voraz')
+        else:
+            print_debug("Has solicitado el aloritmo {} pero no existe".format(
+                str(algoritmo_seleccionado)))
 
         self.ui.txtE_salida.setText("")
 
@@ -156,22 +224,28 @@ class controlador_principal:
             self.ui.box_algoritmo.currentText()))
 
     def mostrar_resultados(self):
-        self.resultado = self.hilo_procesamiento.modelo.get_resultado()
+        try:
+            self.resultado = self.hilo_procesamiento.modelo.get_resultado()
 
-        resultado_str = str(self.resultado)
-        preview = self.modelo.prev_prog_exportable(self.resultado)
+            resultado_str = str(self.resultado)
+            preview = self.modelo.prev_prog_exportable(self.resultado)
 
-        self.ui.txtE_salida.setText(
-            f"=== Interpretacion ===\nProgramación óptima {resultado_str} \n\n=== Archivo exportable ===\n{preview}")
+            self.ui.txtE_salida.setText(
+                f"=== Interpretacion ===\nProgramación óptima {resultado_str} \n\n=== Archivo exportable ===\n{preview}")
 
-        if str(self.modelo.get_algoritmo()) == "exhaustivo":
-            self.ui.lbl_optimalidad.setText("Es óptima")
-        else:
-            self.ui.lbl_optimalidad.setText("No asegura la óptima")
+            if str(self.modelo.get_algoritmo()) == "voraz":
+                self.ui.lbl_optimalidad.setText("No asegura la óptima")
+            else:
+                self.ui.lbl_optimalidad.setText("Es la solucion óptima")
 
-        print_debug("El resultado del algoritmo es {}".format(
-            str(self.resultado)))
-        self.unblock_focus()
+            print_debug("El resultado del algoritmo es {}".format(
+                str(self.resultado)))
+            self.unblock_focus()
+        except TypeError:
+            print_debug("OJO, ha excedido el limite de recursion")
+            self.mostrar_dialogo(
+                "Error", "Hemos excedido el limite de recursion")
+            self.unblock_focus()
 
     def iniciar(self):
         if self.modelo.get_finca() == None:

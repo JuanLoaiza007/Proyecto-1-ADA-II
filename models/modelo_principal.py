@@ -1,8 +1,9 @@
 # [modelo_principal.py]
 
 from models.tools.txt_parser import exportar_programacion_txt
-from models.exhaustivo import roFB
-from models.voraz import roV
+from models.algorithms.exhaustivo import roFB
+from models.algorithms.voraz import roV
+from models.algorithms.dinamico import roPD
 
 debug = True
 
@@ -78,8 +79,7 @@ class modelo_principal:
         if self.algoritmo == 'exhaustivo':
             self.resultado = roFB(self.finca)
         elif self.algoritmo == 'dinamico':
-            print_debug("Este algoritmo esta en proceso de creacion")
-            self.resultado = None
+            self.resultado = roPD(self.finca)
         elif self.algoritmo == 'voraz':
             self.resultado = roV(self.finca)
         else:

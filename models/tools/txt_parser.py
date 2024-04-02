@@ -1,4 +1,5 @@
 # [lector_txt.py]
+import os
 import tkinter as tk
 from tkinter import filedialog
 from models.tools.file_selector import File_selector
@@ -15,10 +16,10 @@ def leer_archivo_txt():
         datos [(int, int, int), (int, int, int),... (int, int, int)]: La finca
         None si no se seleccionó nada
     """
-    nombre_archivo = File_selector.select("data/tests")
-    if nombre_archivo:
+    ruta_completa = File_selector.select("data/tests")
+    if ruta_completa:
         try:
-            with open(nombre_archivo, "r") as archivo:
+            with open(ruta_completa, "r") as archivo:
                 n = int(archivo.readline().strip())
 
                 datos = []
@@ -28,7 +29,10 @@ def leer_archivo_txt():
                     valores = tuple([int(x) for x in linea.split(",")])
                     contenido += linea + "\n"
                     datos.append(valores)
-                return [datos, contenido]
+
+                nombre_archivo = os.path.basename(ruta_completa)
+
+                return [datos, contenido, nombre_archivo]
 
         except FileNotFoundError as e:
             print("txt_parser: Error: El archivo no fue encontrado:", e)

@@ -4,6 +4,22 @@ import numpy as np
 from models.types import *
 
 debug = True
+memoization_active = True
+
+
+class Ahorro():
+    def __init__(self):
+        self.ahorro = 0
+
+    def aumentar_ahorro(self):
+        self.ahorro += 1
+
+    def get_ahorro(self):
+        return self.ahorro
+
+
+def aumentar_ahorro():
+    calculos_ahorrados = calculos_ahorrados + 1
 
 
 def print_debug(message: str):
@@ -13,6 +29,7 @@ def print_debug(message: str):
 
 
 """
+=== Obtencion de valor optimo ===
 progOptima(t0, t1, t2, t3) (0)
 costo(progOptima(t0, t1, t2, t3))
 = minCosto(
@@ -44,10 +61,13 @@ costo(progOptima(t3))
 = minCosto(
     progOptima(t3)                  // Es trivial!!!
 )
+
+=== Obtencion de solucion optima ===
 """
 
 
 def roPD(f):
+    ahorro = Ahorro()
     print_debug("Obtuve la finca: {}\n\n".format(str(f)))
 
     def tiempoRiegoFinca(f: Finca):
@@ -109,33 +129,36 @@ def roPD(f):
             t_ini += treg_t(t)
         return costo
 
-    def costoOptimo(finca: Finca):
+    def costoOptimo(finca: Finca, dic_memoization={}):
 
         if len(finca) == 1:
             return costoRiegoFinca(finca)
         else:
+            # Comprueba si los resultados ya han sido calculados
+            if memoization_active and tuple(finca) in dic_memoization:
+                ahorro.aumentar_ahorro()
+                return dic_memoization[tuple(finca)]
+
             tiempo_total = tiempoRiegoFinca(finca)
             costos = []
 
             for i in range(len(finca)):
-                print_debug("Iteracion #{}".format(str(i+1)))
 
                 copia_finca = finca[:]
                 copia_tablon = copia_finca.pop(i)
                 t_ini_local = tiempo_total - treg_t(copia_tablon)
 
-                print_debug("La finca original es {}".format(str(f)))
-                print_debug("copia_finca recortada {} de len {}\ntablon extraido {}\nt_ini {}\n\n".format(
-                    str(copia_finca), str(len(copia_finca)), str(copia_tablon), str(t_ini_local)))
+                # print_debug("La finca original es {}".format(str(f)))
+                # print_debug("copia_finca recortada {} de len {}\ntablon extraido {}\nt_ini {}\n\n".format(
+                #     str(copia_finca), str(len(copia_finca)), str(copia_tablon), str(t_ini_local)))
 
-                # print_debug("Se calculará {}".format(
-                #     str(copia_finca.append(copia_tablon))))
                 costo_act = costoOptimo(copia_finca) + \
                     costoRiegoTablon(copia_tablon, t_ini_local)
                 costos.append(costo_act)
 
-                print_debug("Costos es {}\n".format(
-                    str(costos)))
+                dic_memoization[tuple(finca)] = min(costos)
+                print_debug("Tamaño del diccionario: {}".format(
+                    str(len(dic_memoization))))
 
             return min(costos)
 
@@ -143,6 +166,8 @@ def roPD(f):
 
     print_debug("El costo minimo que puedo obtener es: {}".format(
         str(costo_optimo)))
+    print_debug("Memorizacion ha ahorrado {} calculos".format(
+        str(ahorro.get_ahorro())))
 
     temp_return = ["¡TEMPORARY RETURN!", costo_optimo]
 

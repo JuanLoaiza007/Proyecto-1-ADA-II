@@ -63,6 +63,7 @@ costo(progOptima(t3))
 )
 
 === Obtencion de solucion optima ===
+La chimbaaaaaa, si ya tenemos costos con memorizacion vamos guardando las programaciones y nos las robamos :D
 """
 
 
@@ -129,8 +130,7 @@ def roPD(f):
             t_ini += treg_t(t)
         return costo
 
-    def costoOptimo(finca: Finca, dic_memoization={}):
-
+    def costoOptimo(finca: Finca):
         if len(finca) == 1:
             return costoRiegoFinca(finca)
         else:
@@ -143,7 +143,6 @@ def roPD(f):
             costos = []
 
             for i in range(len(finca)):
-
                 copia_finca = finca[:]
                 copia_tablon = copia_finca.pop(i)
                 t_ini_local = tiempo_total - treg_t(copia_tablon)
@@ -156,19 +155,20 @@ def roPD(f):
                     costoRiegoTablon(copia_tablon, t_ini_local)
                 costos.append(costo_act)
 
-                dic_memoization[tuple(finca)] = min(costos)
-                print_debug("Tamaño del diccionario: {}".format(
-                    str(len(dic_memoization))))
-
+            dic_memoization[tuple(finca)] = min(costos)
+            print_debug("Tamaño del diccionario: {}".format(
+                str(len(dic_memoization))))
+            dic_solucion[tuple(finca)] = finca[costos.index(min(costos))]
             return min(costos)
 
+    # Pondré los diccionarios aqui pa que no me estorben en los argumentos de la funcion Atte: Juan
+    dic_memoization = {}
+    dic_solucion = {}
     costo_optimo = costoOptimo(f)
 
-    print_debug("El costo minimo que puedo obtener es: {}".format(
-        str(costo_optimo)))
     print_debug("Memorizacion ha ahorrado {} calculos".format(
         str(ahorro.get_ahorro())))
 
-    temp_return = ["¡TEMPORARY RETURN!", costo_optimo]
+    temp_return = [dic_solucion[tuple(f)], costo_optimo]
 
     return temp_return

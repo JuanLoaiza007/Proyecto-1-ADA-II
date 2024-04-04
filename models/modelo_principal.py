@@ -4,6 +4,7 @@ from models.tools.txt_parser import exportar_programacion_txt
 from models.algorithms.exhaustivo import roFB
 from models.algorithms.voraz import roV
 from models.algorithms.dinamico import roPD
+import time
 
 debug = True
 
@@ -75,7 +76,7 @@ class modelo_principal:
         if self.finca == None:
             print_debug("Error: No se ha cargado ninguna finca")
             return None
-
+        inicio = time.time()
         if self.algoritmo == 'exhaustivo':
             self.resultado = roFB(self.finca)
         elif self.algoritmo == 'dinamico':
@@ -86,7 +87,8 @@ class modelo_principal:
             print_debug("Error: El algoritmo {} no es valido".format(
                 str(self.algoritmo)))
             return None
-
+        fin = time.time()
+        print(f"Tiempo de ejecución: {fin-inicio}")
         return self.resultado
 
     def exportar(self):

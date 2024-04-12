@@ -9,32 +9,35 @@ def print_debug(message: str):
         print(new_message)
 
 
-def roFB(f):
+def roFB(f):  # O(n! * n³)
 
-    def costoRiegoTablon(i, f, pi):
+    def costoRiegoTablon(i, f, pi):  # O (n²)
 
-        def calcularTiempoInicio(tablon):
+        def calcularTiempoInicio(tablon):  # O(n)
 
-            if tablon == pi[0]:
+            if tablon == pi[0]:  # O(1)
                 return 0
             else:
+                # O (n)
                 return calcularTiempoInicio(pi[pi.index(tablon) - 1]) + treg(f, pi[pi.index(tablon) - 1])
 
-        def costoRiego(ti):
+        def costoRiego(ti):  # O(1)
             if tsup(f, i) - treg(f, i) >= ti:
                 return tsup(f, i) - (ti + treg(f, i))
             else:
                 return prio(f, i) * ((ti + treg(f, i)) - tsup(f, i))
 
-        tiemposInicioRiego = [calcularTiempoInicio(ti) for ti in range(len(f))]
+        tiemposInicioRiego = [calcularTiempoInicio(
+            ti) for ti in range(len(f))]  # O (n * O (n) ) = O(n²)
 
         return costoRiego(tiemposInicioRiego[i])
 
-    def costoRiegoFinca(f, pi):
+    def costoRiegoFinca(f, pi):  # O (n³)
 
-        costos = [costoRiegoTablon(i, f, pi) for i in range(len(f))]
+        costos = [costoRiegoTablon(i, f, pi)
+                  for i in range(len(f))]  # O(n* O(n²)) = O(n³)
 
-        def sumarElementos(vector):
+        def sumarElementos(vector):  # O(n)
             if not vector:
                 return 0
             else:
@@ -42,23 +45,23 @@ def roFB(f):
 
         return sumarElementos(costos)
 
-    tablones = list(range(len(f)))
+    tablones = list(range(len(f)))  # O(n)
 
-    def generar(restantes):
+    def generar(restantes):  # O(n*n!)
         if len(restantes) == 1:
             return [[restantes[0]]]
         else:
             permutaciones = []
-            for i in restantes:
-                resto = [x for x in restantes if x != i]
-                for permutacion in generar(resto):
+            for i in restantes:  # O(n)
+                resto = [x for x in restantes if x != i]  # O(n)
+                for permutacion in generar(resto):  # O(n!)
                     permutaciones.append([i] + permutacion)
             return permutaciones
 
-    programacionesRiego = generar(tablones)
+    programacionesRiego = generar(tablones)  # O(n*n!) Usando generar()
 
     progCostos = [(pi, costoRiegoFinca(f, pi))
-                  for pi in programacionesRiego]
+                  for pi in programacionesRiego]  # O(n! * n³)
 
     if debug:
         i = 0
@@ -83,11 +86,11 @@ def roFB(f):
 
             print_debug("")
 
-    def encontrarMinimo(optimaActual, costosRestantes):
+    def encontrarMinimo(optimaActual, costosRestantes):  # O(n)
         if not costosRestantes:
             return optimaActual
         else:
             nuevoMin = costosRestantes[0] if costosRestantes[0][1] < optimaActual[1] else optimaActual
             return encontrarMinimo(nuevoMin, costosRestantes[1:])
 
-    return encontrarMinimo(progCostos[0], progCostos[1:])
+    return encontrarMinimo(progCostos[0], progCostos[1:])  # O(n! * O(n))

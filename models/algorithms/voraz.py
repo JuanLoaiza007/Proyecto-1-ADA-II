@@ -11,7 +11,7 @@ def print_debug(message: str):
 
 def roV(f):
 
-    def calcularCostoComoUltimo(finca, ti):
+    def calcularCostoComoUltimo(finca, ti):  # O(n)
         """
         Calcula el costo de un tablon considerandolo el ultimo
 
@@ -22,11 +22,11 @@ def roV(f):
         Returns:
             int: El costo de regar el tablon como si fuera el ultimo.
         """
-        tablon = finca.pop(ti)
-        t_ini = calcularTiempoFinalizacion(finca)
-        return costoRiegoTablonTini(tablon, t_ini)
+        tablon = finca.pop(ti)  # O(1)
+        t_ini = calcularTiempoFinalizacion(finca)  # O(n)
+        return costoRiegoTablonTini(tablon, t_ini)  # O(1)
 
-    def calcularTiempoFinalizacion(f):
+    def calcularTiempoFinalizacion(f):  # O(n)
         """
         Calcula el tiempo de finalizacion de regar una finca
 
@@ -37,12 +37,12 @@ def roV(f):
             int: El tiempo en el que se termina de regar la finca.
         """
         tiempoFinalizacion = 0
-        for i in range(0, len(f), 1):
+        for i in range(0, len(f), 1):  # O(n)
             tiempoFinalizacion += treg(f, i)
 
         return tiempoFinalizacion
 
-    def costoRiegoTablonTini(tablon, t_ini):
+    def costoRiegoTablonTini(tablon, t_ini):  # O(1)
         """
         Calcula el costo de regar un tablon dado el tiempo de inicio
 
@@ -58,15 +58,16 @@ def roV(f):
         else:
             return prio_t(tablon) * (t_ini + treg_t(tablon) - tsup_t(tablon))
 
-    def costoRiegoTablon(i, f, pi):
+    def costoRiegoTablon(i, f, pi):  # O (n²)
 
-        def calcularTiempoInicio(tablon):
+        def calcularTiempoInicio(tablon):  # O(n)
             if tablon == pi[0]:
                 return 0
             else:
+                # O (n)
                 return calcularTiempoInicio(pi[pi.index(tablon) - 1]) + treg(f, pi[pi.index(tablon) - 1])
 
-        def costoRiego(ti):
+        def costoRiego(ti):  # O(1)
             if tsup(f, i) - treg(f, i) >= ti:
                 return tsup(f, i) - (ti + treg(f, i))
             else:
@@ -76,11 +77,12 @@ def roV(f):
 
         return costoRiego(tiemposInicioRiego[i])
 
-    def costoRiegoFinca(f, pi):
+    def costoRiegoFinca(f, pi):  # O (n³)
 
-        costos = [costoRiegoTablon(i, f, pi) for i in range(len(f))]
+        costos = [costoRiegoTablon(i, f, pi)
+                  for i in range(len(f))]  # O(n* O(n²)) = O(n³)
 
-        def sumarElementos(vector):
+        def sumarElementos(vector):  # O(n)
             if not vector:
                 return 0
             else:
@@ -88,40 +90,41 @@ def roV(f):
 
         return sumarElementos(costos)
 
-    tablones = f[:]
+    tablones = f[:]  # O(n)
 
     solucionVoraz = []
     last = len(tablones)
-    indice_original = {i: i for i in range(len(tablones))}
+    indice_original = {i: i for i in range(len(tablones))}  # O(n)
 
-    for j in range(0, len(tablones), 1):
+    for j in range(0, len(tablones), 1):  # O(n)
         solucionVoraz.append(-1)
 
-    for _ in range(len(tablones)-1, -1, -1):
+    for _ in range(len(tablones)-1, -1, -1):  # O(n²)
         costos = []
 
-        for j in range(0, len(tablones), 1):
+        for j in range(0, len(tablones), 1):  # O(n * O(n)) = O(n²)
             copia_tablones = tablones[:]
-            costos.append(calcularCostoComoUltimo(copia_tablones, j))
+            costos.append(calcularCostoComoUltimo(
+                copia_tablones, j))  # O(n * O(n)) = O(n²)
 
         index = 0
         costo_menor = costos[0]
 
-        for j in range(1, len(costos), 1):
+        for j in range(1, len(costos), 1):  # O(n * O(n))
             if costo_menor > costos[j]:
                 costo_menor = costos[j]
                 index = j
 
         clave_org = None
 
-        for clave, valor in indice_original.items():
+        for clave, valor in indice_original.items():  # O(n * O(n))
             if valor == index:
                 solucionVoraz[last-1] = clave
                 clave_org = clave
 
         del indice_original[clave_org]
 
-        for clave, valor in indice_original.items():
+        for clave, valor in indice_original.items():  # O(n * O(n))
 
             if valor >= index:
                 indice_original[clave] -= 1
@@ -130,4 +133,5 @@ def roV(f):
 
         tablones.pop(index)
 
+    # O(n³ * n²) = O(n⁵)
     return tuple([solucionVoraz, costoRiegoFinca(f, solucionVoraz)])

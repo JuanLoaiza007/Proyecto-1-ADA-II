@@ -37,7 +37,7 @@ def roPD(f, memoization_active=True):
         list(ProgRiego, int): Una lista con la programacion de riego optima (ProgRiego) y su costo (int).
     """
 
-    def tiempoRiegoFinca(f: Finca):
+    def tiempoRiegoFinca(f: Finca):  # O (n)
         """
         Calcula todo el tiempo que tarda regar una finca, este dato sirve también como el t_ini del proximo tablon que se agregue a la finca.
 
@@ -50,12 +50,12 @@ def roPD(f, memoization_active=True):
 
         tiempo = 0
 
-        for t in f:
+        for t in f:  # O(n)
             tiempo += treg_t(t)
 
         return tiempo
 
-    def costoRiegoTablon(t: Tablon, t_ini: int):
+    def costoRiegoTablon(t: Tablon, t_ini: int):  # O(1)
         """
         Calcula el costo de regar un tablon dado su tiempo de inicio, usa directamente la propiedad del enunciado.
 
@@ -78,7 +78,7 @@ def roPD(f, memoization_active=True):
             str(t), str(t_ini), str(costo)))
         return costo
 
-    def costoRiegoFinca(f: Finca):
+    def costoRiegoFinca(f: Finca):  # O(n)
         """
         Calcula el costo de regar la finca CON EL MISMO ORDEN DE RIEGO EN QUE SE DA LA FINCA.
 
@@ -91,12 +91,12 @@ def roPD(f, memoization_active=True):
         costo = 0
         t_ini = 0
 
-        for t in f:
-            costo += costoRiegoTablon(t, t_ini)
-            t_ini += treg_t(t)
+        for t in f:  # O (n)
+            costo += costoRiegoTablon(t, t_ini)  # O(n * O(1))
+            t_ini += treg_t(t)  # O(1)
         return costo
 
-    def minProgCostoT(l_prog_costo):
+    def minProgCostoT(l_prog_costo):  # O(n)
         """
         Saca la programacionCosto con el valor minimo de una lista de programacionCosto.
         programacionCosto es list(list(tablon), int)
@@ -112,16 +112,16 @@ def roPD(f, memoization_active=True):
         -> [[(1, 2, 3)], -1]
         """
         prog_opt = l_prog_costo[0]
-        if len(l_prog_costo) == 1:
+        if len(l_prog_costo) == 1:  # O(1)
             print("Lista tamaño 1")
             return prog_opt
 
-        for prog in l_prog_costo:
+        for prog in l_prog_costo:  # O(n)
             if prog[1] < prog_opt[1]:
                 prog_opt = prog
         return prog_opt
 
-    def combinarProgCostoT(pc1, pc2):
+    def combinarProgCostoT(pc1, pc2):  # O (1)
         """
         Combina dos programacionCosto, ATENCION: Lea los Args.
         programacionCosto es list(list(tablon), int)
@@ -141,36 +141,38 @@ def roPD(f, memoization_active=True):
         sumProgCostoT(pc1, pc2)
         -> [[(1, 2, 3), (4, 5, 6), (6, 7, 8)], 5]
         """
-        prog = list(pc1[0])
-        prog.append(pc2[0][0])
-        costo = pc1[1] + pc2[1]
+        prog = list(pc1[0])  # O(1)
+        prog.append(pc2[0][0])  # O(1)
+        costo = pc1[1] + pc2[1]  # O(1)
         return [prog, costo]
 
-    def progCostoOptima(finca: Finca):
-        if len(finca) == 1:
-            return [finca, costoRiegoFinca(finca)]
+    def progCostoOptima(finca: Finca):  # O(n * n!)
+        if len(finca) == 1:  # O(1)
+            return [finca, costoRiegoFinca(finca)]  # O(n)
         else:
-            if tuple(finca) in dic_memoization_sol:
+            if tuple(finca) in dic_memoization_sol:  # O(n)
                 ahorro.aumentar_ahorro()
                 return dic_memoization_sol[tuple(finca)]
-            tiempo_total = tiempoRiegoFinca(finca)
+            tiempo_total = tiempoRiegoFinca(finca)  # O(n)
             programaciones = []
 
-            for i in range(len(finca)):
+            for i in range(len(finca)):  # O(n * n!)
                 copia_finca = finca[:]
                 copia_tablon = copia_finca.pop(i)
                 t_ini_local = tiempo_total - treg_t(copia_tablon)
 
+                # O(n * O( n-1 * O(n-2)...)) =
                 pc1 = progCostoOptima(copia_finca)
                 pc2 = list(([copia_tablon],
                            costoRiegoTablon(copia_tablon, t_ini_local)))
 
-                prog_costo_act = combinarProgCostoT(pc1, pc2)
+                prog_costo_act = combinarProgCostoT(pc1, pc2)  # O(1)
 
-                programaciones.append(prog_costo_act)
+                programaciones.append(prog_costo_act)  # O(1)
 
-            dic_memoization_sol[tuple(finca)] = minProgCostoT(programaciones)
-            return minProgCostoT(programaciones)
+            dic_memoization_sol[tuple(finca)] = minProgCostoT(
+                programaciones)  # O(n)
+            return minProgCostoT(programaciones)  # O(n * O(n)) = O(n²)
 
     # === Estableciendo algunas variables === #
     dic_tablon_indice = {tupla: indice for indice,
@@ -180,7 +182,7 @@ def roPD(f, memoization_active=True):
 
     # === PROCESANDO FINCA === #
     # Aqui se trae directamente la solucion pero la programacion dada por los tablones, no sus indices
-    prog_costo_optima = progCostoOptima(f)
+    prog_costo_optima = progCostoOptima(f)  # O(n * n!)
 
     # Separo la programacion de tablones (tuplas) y su costo (int)
     programacion_t = prog_costo_optima[0]
@@ -189,7 +191,7 @@ def roPD(f, memoization_active=True):
     # Creo un arreglo de la programacion de tablones pero esta vez los indices
     programacion_i = []
     # Repaso cada tablon y pongo su indice original
-    for tablon in programacion_t:
+    for tablon in programacion_t:  # O(n)
         programacion_i.append(dic_tablon_indice[tablon])
 
     # === DEBUG === #
